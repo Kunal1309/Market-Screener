@@ -1,0 +1,97 @@
+import type { Advisor } from "@/types";
+
+export const MOCK_ADVISORS: Advisor[] = [
+  { id:"1",  name:"Sophia Brightman",   crd:"9012345", location:"Riverside, CA",    firm:"Nova Enterprises",      yearsOfExperience:5,  age:25, compliance:"Complaint",  jobTitle:"Financial Strategist",          statesRegistered:["CA","NY"],        yearsAtCurrentFirm:3, lifeEvents:["Promotion"],              almaMater:"UCLA"           },
+  { id:"2",  name:"Liam Nexusford",     crd:"0123456", location:"Cedar Falls, IA",  firm:"Pinnacle Solutions",    yearsOfExperience:6,  age:32, compliance:"No issues",  jobTitle:"Financial Analyst",             statesRegistered:["IA","IL"],        yearsAtCurrentFirm:2, lifeEvents:[],                         almaMater:"Iowa State"     },
+  { id:"3",  name:"Oliver Pinnacle",    crd:"1357924", location:"Fairfield, OH",    firm:"Summit Innovations",    yearsOfExperience:10, age:45, compliance:"Judgement",  jobTitle:"Senior Advisor",                statesRegistered:["OH","KY","IN"],   yearsAtCurrentFirm:5, lifeEvents:["Career change"],          almaMater:"Ohio State"     },
+  { id:"4",  name:"Emma Quantum",       crd:"2468135", location:"Salem, OR",        firm:"Quantum Dynamics",      yearsOfExperience:3,  age:22, compliance:"No issues",  jobTitle:"Financial Consultant",          statesRegistered:["OR","WA"],        yearsAtCurrentFirm:1, lifeEvents:["New Job"],                almaMater:"Oregon State"   },
+  { id:"5",  name:"Ava Synergist",      crd:"3579246", location:"Harrisonburg, VA", firm:"Synergy Corp",          yearsOfExperience:9,  age:38, compliance:"Judgement",  jobTitle:"Financial Strategist",          statesRegistered:["VA","MD","DC"],   yearsAtCurrentFirm:4, lifeEvents:[],                         almaMater:"Virginia Tech"  },
+  { id:"6",  name:"Mason Vertexon",     crd:"4681357", location:"Springfield, IL",  firm:"Vertex Technologies",   yearsOfExperience:12, age:50, compliance:"No issues",  jobTitle:"Portfolio Manager",             statesRegistered:["IL","MO"],        yearsAtCurrentFirm:7, lifeEvents:["Promotion"],              almaMater:"Illinois State" },
+  { id:"7",  name:"Isabella Elysium",   crd:"5792468", location:"Dover, DE",        firm:"Elysium Ventures",      yearsOfExperience:8,  age:29, compliance:"No issues",  jobTitle:"Financial Analyst",             statesRegistered:["DE","PA","NJ"],   yearsAtCurrentFirm:3, lifeEvents:["Relocated"],              almaMater:"U of Delaware"  },
+  { id:"8",  name:"James Horizon",      crd:"6803579", location:"Burlington, VT",   firm:"Horizon Group",         yearsOfExperience:1,  age:21, compliance:"No issues",  jobTitle:"Junior Advisor",                statesRegistered:["VT","NH"],        yearsAtCurrentFirm:1, lifeEvents:["New Job"],                almaMater:"UVM"            },
+  { id:"9",  name:"Charlotte Catalyst", crd:"7914680", location:"Lakewood, CO",     firm:"Catalyst Partners",     yearsOfExperience:7,  age:36, compliance:"No issues",  jobTitle:"Financial Research Specialist", statesRegistered:["CO","WY"],        yearsAtCurrentFirm:4, lifeEvents:[],                         almaMater:"CU Boulder"     },
+  { id:"10", name:"Lucas Summit",       crd:"8025791", location:"Maplewood, NJ",    firm:"Summit Strategies",     yearsOfExperience:4,  age:27, compliance:"Complaint",  jobTitle:"Financial Portfolio Manager",   statesRegistered:["NJ","NY","CT"],   yearsAtCurrentFirm:2, lifeEvents:["Promotion"],              almaMater:"Rutgers"        },
+  { id:"11", name:"Amelia Infinity",    crd:"9136802", location:"Troy, MI",         firm:"Infinity Holdings",     yearsOfExperience:11, age:53, compliance:"Complaint",  jobTitle:"Senior Strategist",             statesRegistered:["MI","OH","IN"],   yearsAtCurrentFirm:8, lifeEvents:[],                         almaMater:"Michigan State" },
+  { id:"12", name:"Ethan Elemental",    crd:"0247913", location:"Glenview, IL",     firm:"Elemental Solutions",   yearsOfExperience:14, age:60, compliance:"No issues",  jobTitle:"Principal Advisor",             statesRegistered:["IL","WI"],        yearsAtCurrentFirm:10,lifeEvents:[],                         almaMater:"Northwestern"   },
+  { id:"13", name:"Mia Elemental",      crd:"1358024", location:"Glenview, IL",     firm:"Elemental Innovations", yearsOfExperience:15, age:40, compliance:"No issues",  jobTitle:"Financial Strategist",          statesRegistered:["IL","IN"],        yearsAtCurrentFirm:6, lifeEvents:["Career change"],          almaMater:"DePaul"         },
+  { id:"14", name:"Noah Vertex",        crd:"2469135", location:"Austin, TX",       firm:"Vertex Capital",        yearsOfExperience:6,  age:33, compliance:"No issues",  jobTitle:"Financial Analyst",             statesRegistered:["TX","OK"],        yearsAtCurrentFirm:3, lifeEvents:["Relocated"],              almaMater:"UT Austin"      },
+  { id:"15", name:"Olivia Nexus",       crd:"3570246", location:"Phoenix, AZ",      firm:"Nexus Financial",       yearsOfExperience:8,  age:41, compliance:"Complaint",  jobTitle:"Senior Financial Analyst",      statesRegistered:["AZ","NV","CA"],   yearsAtCurrentFirm:5, lifeEvents:[],                         almaMater:"ASU"            },
+  { id:"16", name:"William Pioneer",    crd:"4681358", location:"Seattle, WA",      firm:"Pioneer Technologies",  yearsOfExperience:17, age:48, compliance:"No issues",  jobTitle:"Managing Director",             statesRegistered:["WA","OR","ID"],   yearsAtCurrentFirm:12,lifeEvents:["Promotion"],              almaMater:"UW Seattle"     },
+  { id:"17", name:"Harper Vanguard",    crd:"5792469", location:"Boston, MA",       firm:"Vanguard Financial",    yearsOfExperience:9,  age:35, compliance:"No issues",  jobTitle:"Financial Strategist",          statesRegistered:["MA","RI","CT"],   yearsAtCurrentFirm:4, lifeEvents:[],                         almaMater:"Boston U"       },
+  { id:"18", name:"Elijah Catalyst",    crd:"6803580", location:"Denver, CO",       firm:"Catalyst Wealth",       yearsOfExperience:5,  age:28, compliance:"No issues",  jobTitle:"Financial Consultant",          statesRegistered:["CO","UT"],        yearsAtCurrentFirm:2, lifeEvents:["New Job","Relocated"],    almaMater:"CSU"            },
+  { id:"19", name:"Avery Meridian",     crd:"7914681", location:"Charlotte, NC",    firm:"Meridian Partners",     yearsOfExperience:13, age:44, compliance:"Judgement",  jobTitle:"Senior Portfolio Manager",      statesRegistered:["NC","SC","VA"],   yearsAtCurrentFirm:7, lifeEvents:[],                         almaMater:"UNC"            },
+  { id:"20", name:"Scarlett Summit",    crd:"8025792", location:"Minneapolis, MN",  firm:"Summit Global",         yearsOfExperience:3,  age:26, compliance:"No issues",  jobTitle:"Junior Financial Analyst",      statesRegistered:["MN","WI"],        yearsAtCurrentFirm:1, lifeEvents:["New Job"],                almaMater:"UMN"            },
+  { id:"21", name:"Henry Brightwater",  crd:"9136803", location:"Atlanta, GA",      firm:"Brightwater Capital",   yearsOfExperience:20, age:55, compliance:"No issues",  jobTitle:"Chief Investment Officer",      statesRegistered:["GA","FL","SC"],   yearsAtCurrentFirm:15,lifeEvents:[],                         almaMater:"Georgia Tech"   },
+  { id:"22", name:"Luna Axiom",         crd:"0247914", location:"Chicago, IL",      firm:"Axiom Advisors",        yearsOfExperience:7,  age:31, compliance:"Complaint",  jobTitle:"Financial Analyst",             statesRegistered:["IL","IN","WI"],   yearsAtCurrentFirm:3, lifeEvents:["Promotion"],              almaMater:"UChicago"       },
+  { id:"23", name:"Felix Ironclad",     crd:"1358025", location:"Nashville, TN",    firm:"Ironclad Wealth",       yearsOfExperience:11, age:42, compliance:"No issues",  jobTitle:"Wealth Manager",                statesRegistered:["TN","KY","AL"],   yearsAtCurrentFirm:6, lifeEvents:[],                         almaMater:"Vanderbilt"     },
+  { id:"24", name:"Violet Zenith",      crd:"2469136", location:"Portland, OR",     firm:"Zenith Financial",      yearsOfExperience:4,  age:30, compliance:"No issues",  jobTitle:"Financial Consultant",          statesRegistered:["OR","WA","ID"],   yearsAtCurrentFirm:2, lifeEvents:["Career change"],          almaMater:"Portland State" },
+  { id:"25", name:"Sebastian Crest",    crd:"3570247", location:"San Diego, CA",    firm:"Crest Capital",         yearsOfExperience:16, age:52, compliance:"No issues",  jobTitle:"Principal Advisor",             statesRegistered:["CA","NV","AZ"],   yearsAtCurrentFirm:11,lifeEvents:[],                         almaMater:"UCSD"           },
+];
+
+export const ADVISOR_FILTER_OPTIONS = {
+  yearsOfExperience: [
+    { label: "0-3 years",  value: "0-3",  count: 245  },
+    { label: "3-5 years",  value: "3-5",  count: 840  },
+    { label: "5-10 years", value: "5-10", count: 1200 },
+    { label: "10-15 years",value: "10-15",count: 50   },
+    { label: "15+ years",  value: "15+",  count: 10   },
+  ],
+  yearsAtCurrentFirm: [
+    { label: "0-1 years", value: "0-1", count: 245 },
+    { label: "1-3 years", value: "1-3", count: 840 },
+    { label: "3-5 years", value: "3-5", count: 120 },
+    { label: "5+ years",  value: "5+",  count: 10  },
+  ],
+  jobTitles: [
+    "Financial Consultant","Financial Strategist","Financial Analyst",
+    "Financial Research Specialist","Financial Portfolio Manager",
+    "Portfolio Manager","Senior Advisor","Wealth Manager",
+    "Principal Advisor","Managing Director","Chief Investment Officer",
+  ],
+  compliance: [
+    { label: "No issues",        value: "No issues" },
+    { label: "Has a complaint",  value: "Complaint" },
+    { label: "Has a judgement",  value: "Judgement" },
+  ],
+  ageRanges: [
+    { label: "20-39", value: "20-39" },
+    { label: "40-59", value: "40-59" },
+    { label: "60+",   value: "60+"   },
+  ],
+  lifeEvents: ["Promotion","Career change","Relocated","New Job"],
+  firmAUM: [
+    { label: "$0 - $50M",      value: "0-50",      count: 3245 },
+    { label: "$50M - $100M",   value: "50-100",    count: 2840 },
+    { label: "$100M - $250M",  value: "100-250",   count: 4120 },
+    { label: "$250M - $500M",  value: "250-500",   count: 2650 },
+    { label: "$500M - $1B",    value: "500-1000",  count: 1890 },
+    { label: "$1B - $2B",      value: "1000-2000", count: 1890 },
+  ],
+  states: [
+    "Alabama","Alaska","Arizona","Arkansas","California","Colorado",
+    "Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho",
+    "Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana",
+    "Maine","Maryland","Massachusetts","Michigan","Minnesota",
+    "Mississippi","Missouri","Montana","Nebraska","Nevada",
+    "New Hampshire","New Jersey","New Mexico","New York",
+    "North Carolina","North Dakota","Ohio","Oklahoma","Oregon",
+    "Pennsylvania","Rhode Island","South Carolina","South Dakota",
+    "Tennessee","Texas","Utah","Vermont","Virginia","Washington",
+    "West Virginia","Wisconsin","Wyoming",
+  ],
+  firms: [
+    "Capital Growth Strategies","InsightSolutions","WealthWise Advisors",
+    "Future Finance Research","Portfolio Pros Management",
+    "Nova Enterprises","Pinnacle Solutions","Summit Innovations",
+    "Vertex Capital","Nexus Financial","Pioneer Technologies",
+  ],
+};
+
+export const SAVED_SEARCHES = [
+  { id:"1", name:"By HNW 2025",               page:"market-insights" as const },
+  { id:"2", name:"Vanguard Financial Services",page:"advisors"        as const },
+  { id:"3", name:"New search for Clients",     page:"advisors"        as const },
+  { id:"4", name:"Saved Search 3",             page:"market-insights" as const },
+  { id:"5", name:"Saved Search 4",             page:"advisors"        as const },
+  { id:"6", name:"Pioneer Technologies",       page:"market-insights" as const },
+];

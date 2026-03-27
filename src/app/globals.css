@@ -3,31 +3,202 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --brand: #4F46E5;
+  --brand-light: #EEF2FF;
+  --brand-dark: #3730A3;
+  --surface: #ffffff;
+  --surface-2: #F9FAFB;
+  --surface-3: #F3F4F6;
+  --border: #E5E7EB;
+  --border-2: #D1D5DB;
+  --text-1: #111827;
+  --text-2: #374151;
+  --text-3: #6B7280;
+  --text-4: #9CA3AF;
+  --success: #16A34A;
+  --warning: #D97706;
+  --danger: #DC2626;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--surface-3);
+  color: var(--text-1);
+  -webkit-font-smoothing: antialiased;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #9CA3AF; }
+
+/* ── Custom checkbox ── */
+.custom-checkbox {
+  appearance: none; -webkit-appearance: none;
+  width: 15px; height: 15px;
+  border: 1.5px solid #D1D5DB; border-radius: 4px;
+  background: white; cursor: pointer;
+  flex-shrink: 0; position: relative; transition: all 0.12s;
+}
+.custom-checkbox:checked { background: var(--brand); border-color: var(--brand); }
+.custom-checkbox:checked::after {
+  content: ''; position: absolute;
+  left: 4px; top: 1px; width: 5px; height: 8px;
+  border: 1.5px solid white; border-top: none; border-left: none;
+  transform: rotate(45deg);
+}
+.custom-checkbox:hover:not(:checked) { border-color: var(--brand); }
+
+/* ── Custom radio ── */
+.custom-radio {
+  appearance: none; -webkit-appearance: none;
+  width: 15px; height: 15px;
+  border: 1.5px solid #D1D5DB; border-radius: 50%;
+  background: white; cursor: pointer;
+  flex-shrink: 0; position: relative; transition: all 0.12s;
+}
+.custom-radio:checked { border-color: var(--brand); border-width: 4px; }
+
+/* ── Toggle ── */
+.toggle-track {
+  position: relative; width: 36px; height: 20px; display: inline-block;
+}
+.toggle-track input { opacity: 0; width: 0; height: 0; position: absolute; }
+.toggle-thumb {
+  position: absolute; inset: 0; background: #D1D5DB;
+  border-radius: 20px; cursor: pointer; transition: 0.2s;
+}
+.toggle-thumb::before {
+  content: ''; position: absolute;
+  height: 14px; width: 14px; left: 3px; bottom: 3px;
+  background: white; border-radius: 50%; transition: 0.2s;
+}
+.toggle-track input:checked + .toggle-thumb { background: var(--brand); }
+.toggle-track input:checked + .toggle-thumb::before { transform: translateX(16px); }
+
+/* ── Segmented control ── */
+.seg { display: flex; background: #F3F4F6; border-radius: 8px; padding: 2px; }
+.seg-btn {
+  flex: 1; padding: 4px 0; font-size: 12px; font-weight: 500;
+  border: none; border-radius: 6px; cursor: pointer;
+  background: transparent; color: #6B7280; transition: all 0.12s;
+}
+.seg-btn.on { background: white; color: #111827; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+
+/* ── Animations ── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.anim-fadeUp  { animation: fadeUp  0.18s ease; }
+.anim-slideIn { animation: slideIn 0.15s ease; }
+
+/* ── Table row hover ── */
+.row-hover:hover { background: #F9FAFB; cursor: pointer; }
+
+/* ── Responsive layout helpers ── */
+
+/* Desktop: sidebar always visible, mobile drawer hidden */
+.sidebar-desktop { display: flex; height: 100%; }
+.sidebar-mobile  { display: none; }
+
+/* Mobile filter bar button */
+.filter-bar-mobile { display: none; }
+
+/* Hamburger hidden on desktop */
+.hamburger-btn { display: none !important; }
+
+/* ── Mobile breakpoint ── */
+@media (max-width: 768px) {
+
+  /* Show hamburger */
+  .hamburger-btn {
+    display: flex !important;
+  }
+
+  /* Hide desktop sidebar; show mobile drawer container */
+  .sidebar-desktop { display: none; }
+  .sidebar-mobile  { display: flex; }
+
+  /* Show mobile filter trigger bar */
+  .filter-bar-mobile { display: flex !important; }
+
+  /* Hide desktop filter panel */
+  .filter-panel-desktop { display: none !important; }
+
+  /* Make table toolbar wrap nicely */
+  .toolbar-wrap {
+    flex-wrap: wrap;
+    gap: 8px !important;
+  }
+
+  /* Advisors table: hide less-important columns on mobile */
+  .col-hide-mobile { display: none !important; }
+
+  /* Firm profile grid → single column */
+  .firm-grid-2col {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Home leaderboard grid → single column */
+  .leaderboard-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Acquisition insights grid → single column */
+  .acq-grid-2col {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Premium pricing grid → single column */
+  .pricing-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Premium features grid → single column */
+  .features-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Reduce hero padding on home */
+  .hero-section {
+    padding: 32px 16px 24px !important;
+  }
+
+  /* General padding reduction on mobile */
+  .mobile-pad { padding: 16px !important; }
+}
+
+/* ── Tablet breakpoint ── */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .col-hide-tablet { display: none !important; }
+
+  .firm-grid-2col {
+    grid-template-columns: 1fr !important;
+  }
+
+  .leaderboard-grid {
+    grid-template-columns: 1fr 1fr !important;
   }
 }
