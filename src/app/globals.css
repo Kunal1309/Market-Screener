@@ -160,6 +160,25 @@ body {
   .firm-grid-2col {
     grid-template-columns: 1fr !important;
   }
+  
+  .firm-page-layout {
+    flex-direction: column !important;
+  }
+  .firm-page-sidebar {
+    width: 100% !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--border) !important;
+    max-height: 250px;
+    order: -1;
+  }
+  .firm-page-header {
+    flex-direction: column !important;
+    gap: 16px !important;
+    align-items: stretch !important;
+  }
+  .firm-acq-score-mobile {
+    text-align: left !important;
+  }
 
   /* Home leaderboard grid → single column */
   .leaderboard-grid {

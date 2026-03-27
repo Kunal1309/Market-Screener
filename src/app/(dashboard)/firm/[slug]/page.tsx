@@ -14,9 +14,9 @@ export default function FirmProfilePage() {
   const score = firm.acquisitionScore;
 
   return (
-    <div style={{ display: "flex", height: "100%", overflow: "hidden", background: "var(--surface-3)" }}>
+    <div className="firm-page-layout" style={{ display: "flex", height: "100%", overflow: "hidden", background: "var(--surface-3)" }}>
 
-      <aside style={{
+      <aside className="firm-page-sidebar" style={{
         width: 220, flexShrink: 0, background: "white",
         borderRight: "1px solid var(--border)",
         overflowY: "auto", padding: "16px 0",
@@ -76,7 +76,7 @@ export default function FirmProfilePage() {
           <span style={{ color: "var(--text-2)" }}>{firm.name}</span>
         </div>
 
-        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", padding: "16px 24px 12px" }}>
+        <div className="firm-page-header" style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", padding: "16px 24px 12px" }}>
           <div style={{ display: "flex", alignItems: "flex-start", gap: 16 }}>
             <div style={{
               width: 60, height: 60, borderRadius: 12,
@@ -118,7 +118,7 @@ export default function FirmProfilePage() {
               </div>
             </div>
           </div>
-          <div style={{ textAlign: "right", flexShrink: 0 }}>
+          <div className="firm-acq-score-mobile" style={{ textAlign: "right", flexShrink: 0 }}>
             <div style={{ fontSize: 12, color: "var(--text-3)", marginBottom: 4 }}>Acquisition Score</div>
             <div style={{ fontSize: 36, fontWeight: 800, color: score >= 70 ? "#16A34A" : score >= 50 ? "#D97706" : "#DC2626" }}>
               {score}
@@ -152,7 +152,7 @@ export default function FirmProfilePage() {
             </ul>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 24 }}>
+          <div className="firm-grid-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 24 }}>
             <div style={{ background: "white", borderRadius: 12, padding: "16px 20px", border: "1px solid var(--border)" }}>
               <div style={{ fontSize: 14, fontWeight: 600, color: "var(--text-1)", marginBottom: 4 }}>AUM Composition</div>
               <div style={{ position: "relative" }}>
@@ -191,7 +191,7 @@ export default function FirmProfilePage() {
             <div style={{ padding: "14px 20px", borderBottom: "1px solid var(--surface-3)" }}>
               <span style={{ fontSize: 14, fontWeight: 600, color: "var(--text-1)" }}>Acquisition Insights</span>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+            <div className="firm-grid-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
               <div style={{ padding: "20px 24px", borderRight: "1px solid var(--surface-3)" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
                   <span style={{ fontSize: 13, fontWeight: 500, color: "var(--text-1)" }}>Acquisition Score</span>
@@ -252,7 +252,7 @@ export default function FirmProfilePage() {
             <div style={{ fontSize: 13, color: "rgba(255,255,255,0.8)", marginBottom: 20 }}>
               Accelerate your acquisition strategy with the only AI-native RIA research platform
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
+            <div className="firm-grid-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
               {[
                 ["Unlimited Search","Screen the market using 50+ filters."],
                 ["Unlimited Contact Information","Access all contact info for firm owners and advisors."],
@@ -270,7 +270,7 @@ export default function FirmProfilePage() {
                 </div>
               ))}
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+            <div className="firm-grid-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
               {[
                 { period: "MONTHLY", price: "$980", note: "per user/month, billed monthly", highlight: false },
                 { period: "YEARLY",  price: "$980", note: "per user/month, billed monthly", highlight: true  },
