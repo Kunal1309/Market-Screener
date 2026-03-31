@@ -8,9 +8,10 @@ import AdvisorsTable from "@/components/table/AdvisorsTable";
 import ColumnsPicker from "@/components/table/ColumnsPicker";
 import ExportDropdown from "@/components/table/ExportDropdown";
 import Pagination from "@/components/table/Pagination";
+import DetailsPanel from "@/components/views/DetailsPanel";
 import SaveSearchModal from "@/components/filters/SaveSearchModal";
 import { MOCK_ADVISORS } from "@/lib/data/advisors";
-import type { AdvisorFilters, Column, SortState } from "@/types";
+import type { AdvisorFilters, Column, SortState, Advisor } from "@/types";
 
 const DEFAULT_FILTERS: AdvisorFilters = {
   yearsOfExperience: [], yearsAtCurrentFirm: [],
@@ -76,6 +77,7 @@ export default function AdvisorsView({ onTabChange, title = "Advisors" }: { onTa
   const [filters, setFilters]       = useState<AdvisorFilters>(DEFAULT_FILTERS);
   const [columns, setColumns]       = useState<Column[]>(DEFAULT_COLUMNS);
   const [sort, setSort]             = useState<SortState>({ column: "", direction: null });
+  const [selectedRow, setSelectedRow] = useState<Advisor | null>(null);
   const [search, setSearch]         = useState("");
   const [page, setPage]             = useState(1);
   const [perPage, setPerPage]       = useState(10);
@@ -223,7 +225,7 @@ export default function AdvisorsView({ onTabChange, title = "Advisors" }: { onTa
 
           <div style={{ marginLeft: "auto", display: "flex", gap: 8 }}>
             <ColumnsPicker columns={columns} onChange={setColumns} />
-            <ExportDropdown data={sortedData} columns={columns} filename="MarketInsights_Advisors" />
+            <ExportDropdown data={sortedData} columns={columns} filename="MarketInsights_Advisors" title="Market Insights - Advisors" />
           </div>
         </div>
 
@@ -235,7 +237,7 @@ export default function AdvisorsView({ onTabChange, title = "Advisors" }: { onTa
 
         {/* Table */}
         <div style={{ flex: 1, overflow: "auto", background: "white" }}>
-          <AdvisorsTable advisors={paginated} columns={columns} onColumnReorder={handleColumnReorder} sort={sort} onSort={handleSort} />
+          <AdvisorsTable advisors={paginated} columns={columns} onColumnReorder={handleColumnReorder} sort={sort} onSort={handleSort} onRowClick={setSelectedRow} />
         </div>
 
         {/* Pagination */}
@@ -254,6 +256,13 @@ export default function AdvisorsView({ onTabChange, title = "Advisors" }: { onTa
           onSave={name => console.log("Saved:", name)}
         />
       )}
+
+      <DetailsPanel
+        open={!!selectedRow}
+        onClose={() => setSelectedRow(null)}
+        title={selectedRow?.name || "Advisor Details"}
+        data={selectedRow}
+      />
     </div>
   );
 }

@@ -7,6 +7,7 @@ import OwnersTable from "@/components/table/OwnersTable";
 import ColumnsPicker from "@/components/table/ColumnsPicker";
 import ExportDropdown from "@/components/table/ExportDropdown";
 import Pagination from "@/components/table/Pagination";
+import DetailsPanel from "@/components/views/DetailsPanel";
 import { MOCK_OWNERS } from "@/lib/data/owners";
 import type { OwnerFilters, Column, Owner, SortState } from "@/types";
 
@@ -75,6 +76,7 @@ export default function OwnersView({ onTabChange, title = "Market Insights" }: {
   const [filters, setFilters]       = useState<OwnerFilters>(DEFAULT_FILTERS);
   const [columns, setColumns]       = useState<Column[]>(DEFAULT_COLUMNS);
   const [sort, setSort]             = useState<SortState>({ column: "", direction: null });
+  const [selectedRow, setSelectedRow] = useState<Owner | null>(null);
   const [page, setPage]             = useState(1);
   const [perPage, setPerPage]       = useState(10);
   const [filterDrawer, setFilterDrawer] = useState(false);
@@ -176,7 +178,7 @@ export default function OwnersView({ onTabChange, title = "Market Insights" }: {
 
           <div style={{ marginLeft: "auto", display: "flex", gap: 8 }}>
             <ColumnsPicker columns={columns} onChange={setColumns} />
-            <ExportDropdown data={sortedData} columns={columns} filename="MarketInsights_Owners" />
+            <ExportDropdown data={sortedData} columns={columns} filename="MarketInsights_Owners" title="Market Insights - Owners" />
           </div>
         </div>
 
@@ -187,7 +189,7 @@ export default function OwnersView({ onTabChange, title = "Market Insights" }: {
         </div>
 
         <div style={{ flex: 1, overflow: "auto", background: "white" }}>
-          <OwnersTable owners={paginated} columns={columns} onColumnReorder={handleColumnReorder} sort={sort} onSort={handleSort} />
+          <OwnersTable owners={paginated} columns={columns} onColumnReorder={handleColumnReorder} sort={sort} onSort={handleSort} onRowClick={setSelectedRow} />
         </div>
 
         <Pagination
@@ -198,6 +200,13 @@ export default function OwnersView({ onTabChange, title = "Market Insights" }: {
           onPerPage={n => { setPerPage(n); resetPage(); }}
         />
       </div>
+
+      <DetailsPanel
+        open={!!selectedRow}
+        onClose={() => setSelectedRow(null)}
+        title={selectedRow?.name || "Owner Details"}
+        data={selectedRow}
+      />
     </div>
   );
 }

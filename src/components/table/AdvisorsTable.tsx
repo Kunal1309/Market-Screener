@@ -10,9 +10,10 @@ interface Props {
   onColumnReorder?: (sourceKey: string, targetKey: string) => void;
   sort: SortState;
   onSort: (col: string) => void;
+  onRowClick: (advisor: Advisor) => void;
 }
 
-export default function AdvisorsTable({ advisors, columns, onColumnReorder, sort, onSort }: Props) {
+export default function AdvisorsTable({ advisors, columns, onColumnReorder, sort, onSort, onRowClick }: Props) {
   const [dragOverCol, setDragOverCol] = useState<string | null>(null);
 
   const visibleCols = columns.filter(c => c.visible);
@@ -133,7 +134,8 @@ export default function AdvisorsTable({ advisors, columns, onColumnReorder, sort
             <tr
               key={advisor.id}
               className="row-hover"
-              style={{ transition: "background 0.1s" }}
+              style={{ transition: "background 0.1s", cursor: "pointer" }}
+              onClick={() => onRowClick(advisor)}
             >
               {visibleCols.map(col => {
                 if (col.key === "name") return (

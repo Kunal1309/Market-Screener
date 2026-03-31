@@ -10,9 +10,10 @@ interface Props {
   onColumnReorder?: (sourceKey: string, targetKey: string) => void;
   sort: SortState;
   onSort: (col: string) => void;
+  onRowClick: (owner: Owner) => void;
 }
 
-export default function OwnersTable({ owners, columns, onColumnReorder, sort, onSort }: Props) {
+export default function OwnersTable({ owners, columns, onColumnReorder, sort, onSort, onRowClick }: Props) {
   const [dragOverCol, setDragOverCol] = useState<string | null>(null);
 
   const visibleCols = columns.filter(c => c.visible);
@@ -130,7 +131,8 @@ export default function OwnersTable({ owners, columns, onColumnReorder, sort, on
             <tr
               key={owner.id}
               className="row-hover"
-              style={{ transition: "background 0.1s" }}
+              style={{ transition: "background 0.1s", cursor: "pointer" }}
+              onClick={() => onRowClick(owner)}
             >
               {visibleCols.map(col => {
                 if (col.key === "name") return (

@@ -7,9 +7,10 @@ import FilterDrawer from "@/components/filters/FilterDrawer";
 import ColumnsPicker from "@/components/table/ColumnsPicker";
 import ExportDropdown from "@/components/table/ExportDropdown";
 import Pagination from "@/components/table/Pagination";
+import DetailsPanel from "@/components/views/DetailsPanel";
 import SaveSearchModal from "@/components/filters/SaveSearchModal";
 import { MOCK_FIRMS } from "@/lib/data/firms";
-import type { FirmFilters, Column, SortState } from "@/types";
+import type { FirmFilters, Column, SortState, Firm } from "@/types";
 
 const DEFAULT_FILTERS: FirmFilters = {
   totalAUM: [], hnwClientAUM: [], acquisitionScore: [],
@@ -45,6 +46,7 @@ export default function FirmsView({ onTabChange }: { onTabChange: (tab: "owners"
   const [filters, setFilters] = useState<FirmFilters>(DEFAULT_FILTERS);
   const [columns, setColumns] = useState<Column[]>(DEFAULT_COLUMNS);
   const [sort, setSort] = useState<SortState>({ column: "", direction: null });
+  const [selectedRow, setSelectedRow] = useState<Firm | null>(null);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
@@ -212,7 +214,7 @@ export default function FirmsView({ onTabChange }: { onTabChange: (tab: "owners"
 
           <div style={{ marginLeft: "auto", display: "flex", gap: 8 }}>
             <ColumnsPicker columns={columns} onChange={setColumns} />
-            <ExportDropdown data={sortedData} columns={columns} filename="MarketInsights_Firms" />
+            <ExportDropdown data={sortedData} columns={columns} filename="MarketInsights_Firms" title="Market Insights - Firms" />
           </div>
         </div>
 
@@ -320,7 +322,12 @@ export default function FirmsView({ onTabChange }: { onTabChange: (tab: "owners"
             </thead>
             <tbody>
               {paginated.map(firm => (
-                <tr key={firm.id} className="row-hover">
+                <tr
+                  key={firm.id}
+                  className="row-hover"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => setSelectedRow(firm)}
+                >
                   {columns.filter(c => c.visible).map(col => {
                     const td = {
                       padding: "10px 14px", fontSize: 13, color: "var(--text-2)",
@@ -360,6 +367,13 @@ export default function FirmsView({ onTabChange }: { onTabChange: (tab: "owners"
           onSave={name => console.log("Saved:", name)}
         />
       )}
+
+      <DetailsPanel
+        open={!!selectedRow}
+        onClose={() => setSelectedRow(null)}
+        title={selectedRow?.name || "Firm Details"}
+        data={selectedRow}
+      />
     </div>
   );
 }

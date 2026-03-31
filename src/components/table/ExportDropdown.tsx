@@ -9,9 +9,10 @@ interface ExportDropdownProps {
   data: any[];
   columns: Column[];
   filename: string;
+  title?: string;
 }
 
-export default function ExportDropdown({ data, columns, filename }: ExportDropdownProps) {
+export default function ExportDropdown({ data, columns, filename, title }: ExportDropdownProps) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -41,10 +42,16 @@ export default function ExportDropdown({ data, columns, filename }: ExportDropdo
       });
     });
 
-    const csvContent = [
+    const csvContentRows = [
       headers.map(h => `"${h.replace(/"/g, '""')}"`).join(","),
       ...rows.map(r => r.join(","))
-    ].join("\n");
+    ];
+    
+    if (title) {
+      csvContentRows.unshift(`"${title.replace(/"/g, '""')}"\n`);
+    }
+
+    const csvContent = csvContentRows.join("\n");
 
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
@@ -69,7 +76,15 @@ export default function ExportDropdown({ data, columns, filename }: ExportDropdo
       });
     });
 
+    let startY = 10;
+    if (title) {
+      doc.setFontSize(14);
+      doc.text(title, 14, 15);
+      startY = 25;
+    }
+
     autoTable(doc, {
+      startY,
       head,
       body,
       theme: "grid",
