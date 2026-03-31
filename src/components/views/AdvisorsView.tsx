@@ -1,15 +1,16 @@
 "use client";
 import { useState, useMemo } from "react";
-import { Search, Download, SlidersHorizontal } from "lucide-react";
+import { Search, SlidersHorizontal } from "lucide-react";
 import Link from "next/link";
 import AdvisorFilterPanel from "@/components/filters/AdvisorFilterPanel";
 import FilterDrawer from "@/components/filters/FilterDrawer";
 import AdvisorsTable from "@/components/table/AdvisorsTable";
 import ColumnsPicker from "@/components/table/ColumnsPicker";
+import ExportDropdown from "@/components/table/ExportDropdown";
 import Pagination from "@/components/table/Pagination";
 import SaveSearchModal from "@/components/filters/SaveSearchModal";
 import { MOCK_ADVISORS } from "@/lib/data/advisors";
-import type { AdvisorFilters, Column } from "@/types";
+import type { AdvisorFilters, Column, SortState } from "@/types";
 
 const DEFAULT_FILTERS: AdvisorFilters = {
   yearsOfExperience: [], yearsAtCurrentFirm: [],
@@ -21,13 +22,13 @@ const DEFAULT_FILTERS: AdvisorFilters = {
 };
 
 const DEFAULT_COLUMNS: Column[] = [
-  { key: "name",              label: "Name",                  visible: true,  sortable: false },
-  { key: "crd",               label: "CRD",                   visible: true,  sortable: false },
-  { key: "location",          label: "Location",              visible: true,  sortable: false },
-  { key: "firm",              label: "Firm",                  visible: true,  sortable: false },
-  { key: "yearsOfExperience", label: "Years of Ex...",        visible: true,  sortable: true  },
-  { key: "age",               label: "Age",                   visible: true,  sortable: true  },
-  { key: "compliance",        label: "Compliance Violations", visible: true,  sortable: false },
+  { key: "name",              label: "Name",                  visible: true,  sortable: true },
+  { key: "crd",               label: "CRD",                   visible: true,  sortable: true },
+  { key: "location",          label: "Location",              visible: true,  sortable: true },
+  { key: "firm",              label: "Firm",                  visible: true,  sortable: true },
+  { key: "yearsOfExperience", label: "Years of Ex...",        visible: true,  sortable: true },
+  { key: "age",               label: "Age",                   visible: true,  sortable: true },
+  { key: "compliance",        label: "Compliance Violations", visible: true,  sortable: true },
 ];
 
 function applyFilters(advisors: typeof MOCK_ADVISORS, f: AdvisorFilters) {
@@ -74,11 +75,20 @@ function countActiveFilters(f: AdvisorFilters) {
 export default function AdvisorsView({ onTabChange, title = "Advisors" }: { onTabChange: (tab: "owners" | "firms" | "advisors") => void, title?: string }) {
   const [filters, setFilters]       = useState<AdvisorFilters>(DEFAULT_FILTERS);
   const [columns, setColumns]       = useState<Column[]>(DEFAULT_COLUMNS);
+  const [sort, setSort]             = useState<SortState>({ column: "", direction: null });
   const [search, setSearch]         = useState("");
   const [page, setPage]             = useState(1);
   const [perPage, setPerPage]       = useState(10);
   const [showSave, setShowSave]     = useState(false);
   const [filterDrawer, setFilterDrawer] = useState(false);
+
+  const handleSort = (col: string) => {
+    setSort(prev => {
+      if (prev.column !== col) return { column: col, direction: "asc" };
+      if (prev.direction === "asc") return { column: col, direction: "desc" };
+      return { column: "", direction: null };
+    });
+  };
 
   const handleColumnReorder = (sourceKey: string, targetKey: string) => {
     setColumns(prev => {
@@ -105,8 +115,19 @@ export default function AdvisorsView({ onTabChange, title = "Advisors" }: { onTa
     return data;
   }, [filters, search]);
 
-  const totalPages  = Math.max(1, Math.ceil(filtered.length / perPage));
-  const paginated   = filtered.slice((page - 1) * perPage, page * perPage);
+  const sortedData = useMemo(() => {
+    if (!sort.column || !sort.direction) return filtered;
+    return [...filtered].sort((a, b) => {
+      const av = (a as any)[sort.column];
+      const bv = (b as any)[sort.column];
+      const mul = sort.direction === "asc" ? 1 : -1;
+      if (typeof av === "number" && typeof bv === "number") return (av - bv) * mul;
+      return String(av).localeCompare(String(bv)) * mul;
+    });
+  }, [filtered, sort]);
+
+  const totalPages  = Math.max(1, Math.ceil(sortedData.length / perPage));
+  const paginated   = sortedData.slice((page - 1) * perPage, page * perPage);
   const activeCount = countActiveFilters(filters);
   const resetPage   = () => setPage(1);
 
@@ -202,15 +223,7 @@ export default function AdvisorsView({ onTabChange, title = "Advisors" }: { onTa
 
           <div style={{ marginLeft: "auto", display: "flex", gap: 8 }}>
             <ColumnsPicker columns={columns} onChange={setColumns} />
-            <button style={{
-              display: "flex", alignItems: "center", gap: 6,
-              padding: "6px 12px", border: "1px solid var(--border)",
-              borderRadius: 8, background: "white", cursor: "pointer",
-              fontSize: 13, color: "var(--text-2)",
-            }}>
-              <Download size={14} />
-              <span className="col-hide-mobile">Export</span>
-            </button>
+            <ExportDropdown data={sortedData} columns={columns} filename="MarketInsights_Advisors" />
           </div>
         </div>
 
@@ -222,7 +235,7 @@ export default function AdvisorsView({ onTabChange, title = "Advisors" }: { onTa
 
         {/* Table */}
         <div style={{ flex: 1, overflow: "auto", background: "white" }}>
-          <AdvisorsTable advisors={paginated} columns={columns} onColumnReorder={handleColumnReorder} />
+          <AdvisorsTable advisors={paginated} columns={columns} onColumnReorder={handleColumnReorder} sort={sort} onSort={handleSort} />
         </div>
 
         {/* Pagination */}

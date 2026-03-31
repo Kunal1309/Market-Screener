@@ -8,32 +8,14 @@ interface Props {
   owners: Owner[];
   columns: Column[];
   onColumnReorder?: (sourceKey: string, targetKey: string) => void;
+  sort: SortState;
+  onSort: (col: string) => void;
 }
 
-export default function OwnersTable({ owners, columns, onColumnReorder }: Props) {
-  const [sort, setSort] = useState<SortState>({ column: "", direction: null });
+export default function OwnersTable({ owners, columns, onColumnReorder, sort, onSort }: Props) {
   const [dragOverCol, setDragOverCol] = useState<string | null>(null);
 
   const visibleCols = columns.filter(c => c.visible);
-
-  const toggleSort = (col: string) => {
-    setSort(prev => {
-      if (prev.column !== col) return { column: col, direction: "asc" };
-      if (prev.direction === "asc") return { column: col, direction: "desc" };
-      return { column: "", direction: null };
-    });
-  };
-
-  const sorted = useMemo(() => {
-    if (!sort.column || !sort.direction) return owners;
-    return [...owners].sort((a, b) => {
-      const av = a[sort.column as keyof Owner];
-      const bv = b[sort.column as keyof Owner];
-      const mul = sort.direction === "asc" ? 1 : -1;
-      if (typeof av === "number" && typeof bv === "number") return (av - bv) * mul;
-      return String(av).localeCompare(String(bv)) * mul;
-    });
-  }, [owners, sort]);
 
   const SortIcon = ({ col }: { col: string }) => {
     if (sort.column !== col) return <ArrowUpDown size={12} color="var(--text-4)" />;
@@ -134,7 +116,7 @@ export default function OwnersTable({ owners, columns, onColumnReorder }: Props)
                     cursor: col.sortable ? "pointer" : (onColumnReorder ? "grab" : "default"),
                     userSelect: "none",
                   }}
-                  onClick={() => col.sortable && toggleSort(col.key)}
+                  onClick={() => col.sortable && onSort(col.key)}
                 >
                   {col.label}
                   {col.sortable && <SortIcon col={col.key} />}
@@ -144,7 +126,7 @@ export default function OwnersTable({ owners, columns, onColumnReorder }: Props)
           </tr>
         </thead>
         <tbody>
-          {sorted.map(owner => (
+          {owners.map(owner => (
             <tr
               key={owner.id}
               className="row-hover"

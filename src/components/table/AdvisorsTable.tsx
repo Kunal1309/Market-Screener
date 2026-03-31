@@ -8,32 +8,14 @@ interface Props {
   advisors: Advisor[];
   columns: Column[];
   onColumnReorder?: (sourceKey: string, targetKey: string) => void;
+  sort: SortState;
+  onSort: (col: string) => void;
 }
 
-export default function AdvisorsTable({ advisors, columns, onColumnReorder }: Props) {
-  const [sort, setSort] = useState<SortState>({ column: "", direction: null });
+export default function AdvisorsTable({ advisors, columns, onColumnReorder, sort, onSort }: Props) {
   const [dragOverCol, setDragOverCol] = useState<string | null>(null);
 
   const visibleCols = columns.filter(c => c.visible);
-
-  const toggleSort = (col: string) => {
-    setSort(prev =>
-      prev.column === col
-        ? { column: col, direction: prev.direction === "asc" ? "desc" : prev.direction === "desc" ? null : "asc" }
-        : { column: col, direction: "asc" }
-    );
-  };
-
-  const sorted = useMemo(() => {
-    if (!sort.column || !sort.direction) return advisors;
-    return [...advisors].sort((a, b) => {
-      const av = a[sort.column as keyof Advisor];
-      const bv = b[sort.column as keyof Advisor];
-      const mul = sort.direction === "asc" ? 1 : -1;
-      if (typeof av === "number" && typeof bv === "number") return (av - bv) * mul;
-      return String(av).localeCompare(String(bv)) * mul;
-    });
-  }, [advisors, sort]);
 
   const SortIcon = ({ col }: { col: string }) => {
     if (sort.column !== col) return <ArrowUpDown size={12} color="var(--text-4)" />;
@@ -137,7 +119,7 @@ export default function AdvisorsTable({ advisors, columns, onColumnReorder }: Pr
                     cursor: col.sortable ? "pointer" : (onColumnReorder ? "grab" : "default"),
                     userSelect: "none",
                   }}
-                  onClick={() => col.sortable && toggleSort(col.key)}
+                  onClick={() => col.sortable && onSort(col.key)}
                 >
                   {col.label}
                   {col.sortable && <SortIcon col={col.key} />}
@@ -147,7 +129,7 @@ export default function AdvisorsTable({ advisors, columns, onColumnReorder }: Pr
           </tr>
         </thead>
         <tbody>
-          {sorted.map(advisor => (
+          {advisors.map(advisor => (
             <tr
               key={advisor.id}
               className="row-hover"
