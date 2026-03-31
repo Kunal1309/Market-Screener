@@ -17,9 +17,10 @@ interface Props {
   savedFilters: { name: string; filters: any }[];
   onApplyFilter: (filters: any) => void;
   onSaveRequest: () => void;
+  onClearAll?: () => void;
 }
 
-export default function FirmFilterPanel({ filters, onChange, totalCount, searchQuery, onSearchChange, savedFilters, onApplyFilter, onSaveRequest }: Props) {
+export default function FirmFilterPanel({ filters, onChange, totalCount, searchQuery, onSearchChange, savedFilters, onApplyFilter, onSaveRequest, onClearAll }: Props) {
   const [paramSearch, setParamSearch] = useState("");
 
   const set = <K extends keyof FirmFilters>(key: K, val: FirmFilters[K]) =>
@@ -152,6 +153,25 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
           )}
         </div>
       </div>
+
+      {activeCount > 0 && onClearAll && (
+        <div style={{ padding: "12px 16px 0", flexShrink: 0 }}>
+          <button
+            onClick={onClearAll}
+            style={{
+              width: "100%", padding: "7px 0",
+              background: "var(--surface)", border: "1px solid var(--border)",
+              color: "var(--text-1)", borderRadius: 6,
+              fontSize: 12, fontWeight: 500, cursor: "pointer",
+              transition: "0.1s"
+            }}
+            onMouseEnter={e => (e.currentTarget.style.background = "var(--surface-2)")}
+            onMouseLeave={e => (e.currentTarget.style.background = "var(--surface)")}
+          >
+            Clear all filters
+          </button>
+        </div>
+      )}
 
       {/* Shortcuts */}
       <div style={{ padding: "10px 16px 4px", flexShrink: 0 }}>

@@ -145,6 +145,7 @@ export default function OwnersView({ onTabChange, title = "Market Insights" }: {
       savedFilters={savedFilters}
       onApplyFilter={(f: OwnerFilters) => { setFilters(f); resetPage(); }}
       onSaveRequest={() => setShowSave(true)}
+      onClearAll={() => { setFilters(DEFAULT_FILTERS); setSearch(""); resetPage(); }}
     />
   );
 
@@ -203,12 +204,30 @@ export default function OwnersView({ onTabChange, title = "Market Insights" }: {
           style={{
             display: "flex", alignItems: "center", gap: 10,
             padding: "12px 16px", borderBottom: "1px solid var(--border)",
-            background: "var(--surface)", flexShrink: 0,
+          background: "var(--surface)", flexShrink: 0,
           }}
         >
-          <h1 style={{ fontSize: 20, fontWeight: 600, color: "var(--text-1)" }}>
-            {title}
-          </h1>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            {!isFilterOpen && (
+              <button
+                className="filter-panel-desktop"
+                onClick={() => setIsFilterOpen(true)}
+                style={{
+                  background: "transparent", border: "none", cursor: "pointer",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  color: "var(--text-2)", padding: 4, borderRadius: 6,
+                }}
+                onMouseEnter={e => (e.currentTarget.style.background = "var(--surface-2)")}
+                onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+                title="Open Filters"
+              >
+                <SlidersHorizontal size={18} />
+              </button>
+            )}
+            <h1 style={{ fontSize: 20, fontWeight: 600, color: "var(--text-1)" }}>
+              {title}
+            </h1>
+          </div>
 
           <button
             className="filter-bar-mobile"
