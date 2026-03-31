@@ -39,6 +39,18 @@ export interface Firm {
   adv: boolean;
 }
 
+// ─── Owner ──────────────────────────────────────────────────
+export interface Owner {
+  id: string;
+  name: string;
+  firm: string;
+  ownershipPercentage: number;
+  role: string;
+  age: number;
+  tenure: number;
+  location: string;
+}
+
 // ─── Firm Profile ────────────────────────────────────────────
 export interface FirmProfile {
   id: string;
@@ -107,6 +119,15 @@ export interface AdvisorFilters {
   ageRanges: string[];
   lifeEvents: string[];
   almaMater: string[];
+  smartSearch: boolean;
+}
+
+export interface OwnerFilters {
+  ownershipRanges: string[];
+  roles: string[];
+  ageRanges: string[];
+  tenureRanges: string[];
+  locationZip: string;
   smartSearch: boolean;
 }
 

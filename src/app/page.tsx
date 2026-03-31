@@ -34,8 +34,8 @@ export default function HomePage() {
           Back to Website
         </Link>
         <span style={{ color: "var(--border)" }}>|</span>
-        <Link href="/advisors" style={{ fontSize: 13, color: "var(--text-2)", textDecoration: "none" }}>Log In</Link>
-        <Link href="/advisors" style={{
+        <Link href="/market-insights" style={{ fontSize: 13, color: "var(--text-2)", textDecoration: "none" }}>Log In</Link>
+        <Link href="/market-insights" style={{
           fontSize: 13, fontWeight: 500, color: "white",
           background: "var(--brand)", padding: "7px 16px",
           borderRadius: 8, textDecoration: "none",

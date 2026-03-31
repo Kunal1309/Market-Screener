@@ -1,39 +1,39 @@
 "use client";
 import { useState, useMemo } from "react";
-import { ArrowUpDown, ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
-import { getComplianceStyle, truncate } from "@/lib/utils";
-import type { Advisor, SortState, Column } from "@/types";
+import { ArrowUpDown, ChevronDown, ChevronUp } from "lucide-react";
+import { truncate } from "@/lib/utils";
+import type { Owner, SortState, Column } from "@/types";
 
 interface Props {
-  advisors: Advisor[];
+  owners: Owner[];
   columns: Column[];
   onColumnReorder?: (sourceKey: string, targetKey: string) => void;
 }
 
-export default function AdvisorsTable({ advisors, columns, onColumnReorder }: Props) {
+export default function OwnersTable({ owners, columns, onColumnReorder }: Props) {
   const [sort, setSort] = useState<SortState>({ column: "", direction: null });
   const [dragOverCol, setDragOverCol] = useState<string | null>(null);
 
   const visibleCols = columns.filter(c => c.visible);
 
   const toggleSort = (col: string) => {
-    setSort(prev =>
-      prev.column === col
-        ? { column: col, direction: prev.direction === "asc" ? "desc" : prev.direction === "desc" ? null : "asc" }
-        : { column: col, direction: "asc" }
-    );
+    setSort(prev => {
+      if (prev.column !== col) return { column: col, direction: "asc" };
+      if (prev.direction === "asc") return { column: col, direction: "desc" };
+      return { column: "", direction: null };
+    });
   };
 
   const sorted = useMemo(() => {
-    if (!sort.column || !sort.direction) return advisors;
-    return [...advisors].sort((a, b) => {
-      const av = a[sort.column as keyof Advisor];
-      const bv = b[sort.column as keyof Advisor];
+    if (!sort.column || !sort.direction) return owners;
+    return [...owners].sort((a, b) => {
+      const av = a[sort.column as keyof Owner];
+      const bv = b[sort.column as keyof Owner];
       const mul = sort.direction === "asc" ? 1 : -1;
       if (typeof av === "number" && typeof bv === "number") return (av - bv) * mul;
       return String(av).localeCompare(String(bv)) * mul;
     });
-  }, [advisors, sort]);
+  }, [owners, sort]);
 
   const SortIcon = ({ col }: { col: string }) => {
     if (sort.column !== col) return <ArrowUpDown size={12} color="var(--text-4)" />;
@@ -70,9 +70,6 @@ export default function AdvisorsTable({ advisors, columns, onColumnReorder }: Pr
                 key={col.key}
                 style={getThStyle(col.key)}
                 draggable={!!onColumnReorder}
-                // onDragStart={(e) => {
-                //   e.dataTransfer.setData("text/plain", col.key);
-                // }}
                 onDragStart={(e) => {
                   e.dataTransfer.setData("text/plain", col.key);
 
@@ -147,46 +144,37 @@ export default function AdvisorsTable({ advisors, columns, onColumnReorder }: Pr
           </tr>
         </thead>
         <tbody>
-          {sorted.map(advisor => (
+          {sorted.map(owner => (
             <tr
-              key={advisor.id}
+              key={owner.id}
               className="row-hover"
               style={{ transition: "background 0.1s" }}
             >
               {visibleCols.map(col => {
                 if (col.key === "name") return (
                   <td key="name" style={{ ...getTdStyle(col.key), fontWeight: 500, color: "var(--text-1)" }}>
-                    {advisor.name}
+                    {owner.name}
                   </td>
-                );
-                if (col.key === "crd") return (
-                  <td key="crd" style={getTdStyle(col.key)}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                      {advisor.crd}
-                      <ExternalLink size={12} color="var(--text-4)" style={{ cursor: "pointer" }} />
-                    </div>
-                  </td>
-                );
-                if (col.key === "location") return (
-                  <td key="location" style={getTdStyle(col.key)}>{advisor.location}</td>
                 );
                 if (col.key === "firm") return (
                   <td key="firm" style={{ ...getTdStyle(col.key), fontWeight: 500 }}>
-                    {truncate(advisor.firm, 18)}
+                    {truncate(owner.firm, 18)}
                   </td>
                 );
-                if (col.key === "yearsOfExperience") return (
-                  <td key="yoe" style={getTdStyle(col.key)}>{advisor.yearsOfExperience}</td>
+                if (col.key === "ownershipPercentage") return (
+                  <td key="ownership" style={getTdStyle(col.key)}>{owner.ownershipPercentage}%</td>
+                );
+                if (col.key === "role") return (
+                  <td key="role" style={getTdStyle(col.key)}>{owner.role}</td>
                 );
                 if (col.key === "age") return (
-                  <td key="age" style={getTdStyle(col.key)}>{advisor.age}</td>
+                  <td key="age" style={getTdStyle(col.key)}>{owner.age}</td>
                 );
-                if (col.key === "compliance") return (
-                  <td key="compliance" style={getTdStyle(col.key)}>
-                    <span style={{ ...getComplianceStyle(advisor.compliance), fontWeight: 500 }}>
-                      {advisor.compliance}
-                    </span>
-                  </td>
+                if (col.key === "tenure") return (
+                  <td key="tenure" style={getTdStyle(col.key)}>{owner.tenure} yrs</td>
+                );
+                if (col.key === "location") return (
+                  <td key="location" style={getTdStyle(col.key)}>{owner.location}</td>
                 );
                 return <td key={col.key} style={getTdStyle(col.key)}>—</td>;
               })}
