@@ -6,6 +6,7 @@ import CheckboxGroup from "./CheckboxGroup";
 import DropdownMulti from "./DropdownMulti";
 import SavedSearches from "./SavedSearches";
 import { FIRM_FILTER_OPTIONS } from "@/lib/data/firms";
+import { useTranslation } from "@/lib/i18n/LanguageContext";
 import type { FirmFilters } from "@/types";
 
 interface Props {
@@ -21,6 +22,7 @@ interface Props {
 }
 
 export default function FirmFilterPanel({ filters, onChange, totalCount, searchQuery, onSearchChange, savedFilters, onApplyFilter, onSaveRequest, onClearAll }: Props) {
+  const { t } = useTranslation();
   const [paramSearch, setParamSearch] = useState("");
 
   const set = <K extends keyof FirmFilters>(key: K, val: FirmFilters[K]) =>
@@ -66,7 +68,7 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
       >
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <span style={{ fontSize: 14, fontWeight: 600, color: "var(--text-1)" }}>
-            Filters
+            {t("common.filters")}
           </span>
           {activeCount > 0 && (
             <span
@@ -97,7 +99,7 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
           <input
             value={searchQuery}
             onChange={e => onSearchChange(e.target.value)}
-            placeholder="Search data..."
+            placeholder={t("common.searchData")}
             style={{
               flex: 1, border: "none", background: "transparent",
               fontSize: 13, color: "var(--text-1)", outline: "none",
@@ -127,7 +129,7 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
           <input
             value={paramSearch}
             onChange={(e) => setParamSearch(e.target.value)}
-            placeholder="Search by filter parameters"
+            placeholder={t("common.searchByParam")}
             style={{
               flex: 1,
               border: "none",
@@ -168,7 +170,7 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
             onMouseEnter={e => (e.currentTarget.style.background = "var(--surface-2)")}
             onMouseLeave={e => (e.currentTarget.style.background = "var(--surface)")}
           >
-            Clear all filters
+            {t("common.clearAll")}
           </button>
         </div>
       )}
@@ -183,7 +185,7 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
             marginBottom: 8,
           }}
         >
-          Shortcuts
+          {t("common.shortcuts")}
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           <div
@@ -194,7 +196,7 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
             }}
           >
             <span style={{ fontSize: 13, color: "var(--text-2)" }}>
-              Smart Search
+              {t("common.smartSearch")}
             </span>
             <label className="toggle-track">
               <input
@@ -213,7 +215,7 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
             }}
           >
             <span style={{ fontSize: 13, color: "var(--text-2)" }}>
-              Outpaces market growth
+              {t("filters.outpacesMarketGrowth")}
             </span>
             <label className="toggle-track">
               <input
@@ -233,7 +235,7 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
         {/* Firm Metrics label */}
         <div style={{ padding: "8px 16px 4px" }}>
           <span style={{ fontSize: 12, fontWeight: 600, color: "var(--text-3)" }}>
-            Firm Metrics{" "}
+            {t("common.firmMetrics")} {" "}
             <span
               style={{
                 background: "var(--surface-3)",
@@ -251,7 +253,7 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
           </span>
         </div>
 
-        <FilterAccordion title="Total AUM ($M)" count={filters.totalAUM.length} defaultOpen>
+        <FilterAccordion title={t("filters.totalAUM")} count={filters.totalAUM.length} defaultOpen>
           <CheckboxGroup
             options={FIRM_FILTER_OPTIONS.totalAUM}
             selected={filters.totalAUM}
@@ -261,7 +263,7 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
           />
         </FilterAccordion>
 
-        <FilterAccordion title="HNW Client AUM %" count={filters.hnwClientAUM.length}>
+        <FilterAccordion title={t("filters.hnwClientAUM")} count={filters.hnwClientAUM.length}>
           <CheckboxGroup
             options={FIRM_FILTER_OPTIONS.hnwClientAUM}
             selected={filters.hnwClientAUM}
@@ -271,7 +273,7 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
           />
         </FilterAccordion>
 
-        <FilterAccordion title="Acquisition Score" count={filters.acquisitionScore.length}>
+        <FilterAccordion title={t("filters.acquisitionScore")} count={filters.acquisitionScore.length}>
           <CheckboxGroup
             options={FIRM_FILTER_OPTIONS.acquisitionScore}
             selected={filters.acquisitionScore}
@@ -280,7 +282,7 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
           />
         </FilterAccordion>
 
-        <FilterAccordion title="Custodian" count={filters.custodian.length}>
+        <FilterAccordion title={t("filters.custodian")} count={filters.custodian.length}>
           <DropdownMulti
             placeholder="Search custodian"
             options={FIRM_FILTER_OPTIONS.custodians}
@@ -301,7 +303,7 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
                 color: "var(--brand)",
               }}
             >
-              Smart Filters{" "}
+              {t("common.smartFilters")}{" "}
               <span
                 style={{
                   background: "var(--brand-light)",
@@ -326,7 +328,7 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
             background: "var(--brand-light)",
           }}
         >
-          <FilterAccordion title="HNW Client Growth" count={filters.hnwClientGrowth.length}>
+          <FilterAccordion title={t("filters.hnwClientGrowth")} count={filters.hnwClientGrowth.length}>
             <CheckboxGroup
               options={[
                 { label: "Growing fast (>20%)", value: "fast",     count: 3245 },
@@ -340,7 +342,7 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
             />
           </FilterAccordion>
 
-          <FilterAccordion title="Client Growth" count={filters.clientGrowth.length}>
+          <FilterAccordion title={t("filters.clientGrowth")} count={filters.clientGrowth.length}>
             <CheckboxGroup
               options={[
                 { label: "Growing fast (>20%)", value: "fast",     count: 3245 },
@@ -358,7 +360,7 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
         {/* Firm Characteristics label */}
         <div style={{ padding: "8px 16px 4px" }}>
           <span style={{ fontSize: 12, fontWeight: 600, color: "var(--text-3)" }}>
-            Firm Characteristics{" "}
+            {t("common.firmCharacteristics")}{" "}
             <span
               style={{
                 background: "var(--surface-3)",
@@ -373,7 +375,7 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
           </span>
         </div>
 
-        <FilterAccordion title="Location" count={filters.location.length}>
+        <FilterAccordion title={t("filters.location")} count={filters.location.length}>
           <DropdownMulti
             placeholder="Search location"
             options={[
@@ -386,7 +388,7 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
           />
         </FilterAccordion>
 
-        <FilterAccordion title="Office Count" count={filters.officeCount.length}>
+        <FilterAccordion title={t("filters.officeCount")} count={filters.officeCount.length}>
           <CheckboxGroup
             options={[
               { label: "1 office",     value: "1",    count: 3245 },
@@ -400,7 +402,7 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
           />
         </FilterAccordion>
 
-        <FilterAccordion title="AUM per Office" count={filters.aumPerAdvisor.length}>
+        <FilterAccordion title={t("filters.aumPerOffice")} count={filters.aumPerAdvisor.length}>
           <CheckboxGroup
             options={[
               { label: "Under $50M",   value: "0-50",   count: 3245 },
@@ -413,7 +415,7 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
           />
         </FilterAccordion>
 
-        <FilterAccordion title="Advisor Count" count={filters.advisorCount.length}>
+        <FilterAccordion title={t("filters.advisorCount")} count={filters.advisorCount.length}>
           <CheckboxGroup
             options={[
               { label: "1-5",   value: "1-5",   count: 3245 },
@@ -427,7 +429,7 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
           />
         </FilterAccordion>
 
-        <FilterAccordion title="Employees" count={filters.employees.length}>
+        <FilterAccordion title={t("filters.employees")} count={filters.employees.length}>
           <CheckboxGroup
             options={[
               { label: "1-10",   value: "1-10",   count: 3245 },
@@ -442,7 +444,7 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
         </FilterAccordion>
 
         <FilterAccordion
-          title="SEC Registration Date"
+          title={t("filters.secRegistrationDate")}
           count={filters.secRegistrationDateFrom ? 1 : 0}
         >
           <div style={{ display: "flex", gap: 8 }}>
@@ -489,7 +491,7 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
           </div>
         </FilterAccordion>
 
-        <FilterAccordion title="AUM CAGR" count={filters.aumCAGR.length}>
+        <FilterAccordion title={t("filters.aumCAGR")} count={filters.aumCAGR.length}>
           <CheckboxGroup
             options={[
               { label: "Negative", value: "neg",  count: 1245 },
@@ -503,7 +505,7 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
           />
         </FilterAccordion>
 
-        <FilterAccordion title="Past Acquisitions" count={filters.pastAcquisitions.length}>
+        <FilterAccordion title={t("filters.pastAcquisitions")} count={filters.pastAcquisitions.length}>
           <CheckboxGroup
             options={[
               { label: "None", value: "0",   count: 3245 },
@@ -520,7 +522,7 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
         {/* Owner Information label */}
         <div style={{ padding: "8px 16px 4px" }}>
           <span style={{ fontSize: 12, fontWeight: 600, color: "var(--text-3)" }}>
-            Owner Information{" "}
+            {t("common.ownerInformation")}{" "}
             <span
               style={{
                 background: "var(--surface-3)",
@@ -536,9 +538,9 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
         </div>
 
         <FilterAccordion
-          title="Owner Tenure"
+          title={t("filters.ownerTenure")}
           count={filters.ownerTenure.length}
-          info="Find firms with at least one owner with the specified tenure length"
+          info={t("filters.ownerTenureInfo")}
         >
           <CheckboxGroup
             options={FIRM_FILTER_OPTIONS.ownerTenure}
@@ -548,7 +550,7 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
           />
         </FilterAccordion>
 
-        <FilterAccordion title="Owner Age" count={filters.ownerAge.length}>
+        <FilterAccordion title={t("filters.ownerAge")} count={filters.ownerAge.length}>
           <CheckboxGroup
             options={[
               { label: "Under 40", value: "under-40", count: 1245 },
@@ -563,7 +565,7 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
         </FilterAccordion>
 
         <FilterAccordion
-          title="Family Owned"
+          title={t("filters.familyOwned")}
           count={filters.familyOwned !== null ? 1 : 0}
         >
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -595,11 +597,11 @@ export default function FirmFilterPanel({ filters, onChange, totalCount, searchQ
         {/* Other label */}
         <div style={{ padding: "8px 16px 4px" }}>
           <span style={{ fontSize: 12, fontWeight: 600, color: "var(--text-3)" }}>
-            Other
+            {t("common.other")}
           </span>
         </div>
 
-        <FilterAccordion title="ADV Brochure" count={0}>
+        <FilterAccordion title={t("filters.advBrochure")} count={0}>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {["Available", "Not available"].map((opt) => (
               <label

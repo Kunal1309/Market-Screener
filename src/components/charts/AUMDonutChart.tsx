@@ -23,7 +23,7 @@ export default function AUMDonutChart({ data }: Props) {
             ))}
           </Pie>
           <Tooltip
-            formatter={(val: number, name: string) => [`${val}%`, name]}
+            formatter={(val: any, name: any) => [`${val}%`, name]}
             contentStyle={{
               fontSize: 12, borderRadius: 8,
               border: "1px solid var(--border)",

@@ -55,7 +55,7 @@ export default function MarketInsightsFilterPanel({ filters, onChange }: Props) 
             }}>{activeCount}</span>
           )}
         </div>
-        <SavedSearches />
+        <SavedSearches savedFilters={[]} onApply={() => {}} onSaveRequest={() => {}} />
       </div>
 
       {/* Param search */}

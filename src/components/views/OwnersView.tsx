@@ -10,6 +10,7 @@ import Pagination from "@/components/table/Pagination";
 import DetailsPanel from "@/components/views/DetailsPanel";
 import SaveSearchModal from "@/components/filters/SaveSearchModal";
 import { MOCK_OWNERS } from "@/lib/data/owners";
+import { useTranslation } from "@/lib/i18n/LanguageContext";
 import type { OwnerFilters, Column, Owner, SortState } from "@/types";
 
 const DEFAULT_FILTERS: OwnerFilters = {
@@ -74,6 +75,7 @@ function countActiveFilters(f: OwnerFilters) {
 }
 
 export default function OwnersView({ onTabChange, title = "Market Insights" }: { onTabChange: (tab: "owners" | "firms" | "advisors") => void, title?: string }) {
+  const { t } = useTranslation();
   const [filters, setFilters]       = useState<OwnerFilters>(DEFAULT_FILTERS);
   const [columns, setColumns]       = useState<Column[]>(DEFAULT_COLUMNS);
   const [sort, setSort]             = useState<SortState>({ column: "", direction: null });
@@ -225,7 +227,7 @@ export default function OwnersView({ onTabChange, title = "Market Insights" }: {
               </button>
             )}
             <h1 style={{ fontSize: 20, fontWeight: 600, color: "var(--text-1)" }}>
-              {title}
+              {title === "Market Insights" ? t("nav.marketInsights") : title}
             </h1>
           </div>
 
@@ -244,23 +246,30 @@ export default function OwnersView({ onTabChange, title = "Market Insights" }: {
             }}
           >
             <SlidersHorizontal size={14} />
-            Filters{activeCount > 0 ? ` (${activeCount})` : ""}
+            {t("common.filters")}{activeCount > 0 ? ` (${activeCount})` : ""}
           </button>
 
           <div style={{ marginLeft: "auto", display: "flex", gap: 8 }}>
             <ColumnsPicker columns={columns} onChange={setColumns} />
-            <ExportDropdown data={sortedData} columns={columns} filename="MarketInsights_Owners" title="Market Insights - Owners" />
+            <ExportDropdown data={sortedData} columns={columns} filename="MarketInsights_Owners" title={`${t("nav.marketInsights")} - ${t("nav.owners")}`} />
           </div>
         </div>
 
         <div style={{ display: "flex", gap: 32, padding: "0 20px", borderBottom: "1px solid var(--border)", background: "var(--surface)", flexShrink: 0 }}>
-          <button onClick={() => onTabChange("owners")} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-1)", padding: "12px 0", fontSize: 14, fontWeight: 500, borderBottom: "2px solid var(--brand)" }}>Owners</button>
-          <button onClick={() => onTabChange("firms")} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-3)", padding: "12px 0", fontSize: 14, fontWeight: 500, borderBottom: "2px solid transparent" }}>Firms</button>
-          <button onClick={() => onTabChange("advisors")} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-3)", padding: "12px 0", fontSize: 14, fontWeight: 500, borderBottom: "2px solid transparent" }}>Advisers</button>
+          <button onClick={() => onTabChange("owners")} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-1)", padding: "12px 0", fontSize: 14, fontWeight: 500, borderBottom: "2px solid var(--brand)" }}>{t("nav.owners")}</button>
+          <button onClick={() => onTabChange("firms")} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-3)", padding: "12px 0", fontSize: 14, fontWeight: 500, borderBottom: "2px solid transparent" }}>{t("nav.firms")}</button>
+          <button onClick={() => onTabChange("advisors")} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-3)", padding: "12px 0", fontSize: 14, fontWeight: 500, borderBottom: "2px solid transparent" }}>{t("nav.advisors")}</button>
         </div>
 
         <div style={{ flex: 1, overflow: "auto", background: "var(--surface)" }}>
-          <OwnersTable owners={paginated} columns={columns} onColumnReorder={handleColumnReorder} sort={sort} onSort={handleSort} onRowClick={setSelectedRow} />
+          <OwnersTable 
+            owners={paginated} 
+            columns={columns.map(c => ({...c, label: t(`columns.${c.key}`) !== `columns.${c.key}` ? t(`columns.${c.key}`) : c.label}))} 
+            onColumnReorder={handleColumnReorder} 
+            sort={sort} 
+            onSort={handleSort} 
+            onRowClick={setSelectedRow} 
+          />
         </div>
 
         <Pagination
@@ -285,7 +294,7 @@ export default function OwnersView({ onTabChange, title = "Market Insights" }: {
       <DetailsPanel
         open={!!selectedRow}
         onClose={() => setSelectedRow(null)}
-        title={selectedRow?.name || "Owner Details"}
+        title={selectedRow?.name || t("common.ownerDetails")}
         data={selectedRow}
       />
     </div>

@@ -6,6 +6,7 @@ import CheckboxGroup from "./CheckboxGroup";
 import DropdownMulti from "./DropdownMulti";
 import SavedSearches from "./SavedSearches";
 import { ADVISOR_FILTER_OPTIONS } from "@/lib/data/advisors";
+import { useTranslation } from "@/lib/i18n/LanguageContext";
 import type { AdvisorFilters } from "@/types";
 
 const DEFAULT_FILTERS: AdvisorFilters = {
@@ -40,6 +41,7 @@ interface Props {
 }
 
 export default function AdvisorFilterPanel({ filters, onChange, totalCount, searchQuery, onSearchChange, savedFilters, onApplyFilter, onSaveRequest, onClearAll }: Props) {
+  const { t } = useTranslation();
   const [paramSearch, setParamSearch] = useState("");
 
   const set = <K extends keyof AdvisorFilters>(key: K, val: AdvisorFilters[K]) =>
@@ -75,7 +77,7 @@ export default function AdvisorFilterPanel({ filters, onChange, totalCount, sear
         justifyContent: "space-between", gap: 8, flexShrink: 0,
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <span style={{ fontSize: 14, fontWeight: 600, color: "var(--text-1)" }}>Filters</span>
+          <span style={{ fontSize: 14, fontWeight: 600, color: "var(--text-1)" }}>{t("common.filters")}</span>
           {activeCount > 0 && (
             <span style={{
               background: "var(--text-1)", color: "var(--surface)",
@@ -98,7 +100,7 @@ export default function AdvisorFilterPanel({ filters, onChange, totalCount, sear
           <input
             value={searchQuery}
             onChange={e => onSearchChange(e.target.value)}
-            placeholder="Search data..."
+            placeholder={t("common.searchData")}
             style={{
               flex: 1, border: "none", background: "transparent",
               fontSize: 13, color: "var(--text-1)", outline: "none",
@@ -122,7 +124,7 @@ export default function AdvisorFilterPanel({ filters, onChange, totalCount, sear
           <input
             value={paramSearch}
             onChange={e => setParamSearch(e.target.value)}
-            placeholder="Search by filter parameters"
+            placeholder={t("common.searchByParam")}
             style={{
               flex: 1, border: "none", background: "transparent",
               fontSize: 12, color: "var(--text-1)", outline: "none",
@@ -151,16 +153,16 @@ export default function AdvisorFilterPanel({ filters, onChange, totalCount, sear
             onMouseEnter={e => (e.currentTarget.style.background = "var(--surface-2)")}
             onMouseLeave={e => (e.currentTarget.style.background = "var(--surface)")}
           >
-            Clear all filters
+            {t("common.clearAll")}
           </button>
         </div>
       )}
 
       {/* Shortcuts */}
       <div style={{ padding: "10px 16px 4px", flexShrink: 0 }}>
-        <div style={{ fontSize: 12, fontWeight: 600, color: "var(--text-3)", marginBottom: 8 }}>Shortcuts</div>
+        <div style={{ fontSize: 12, fontWeight: 600, color: "var(--text-3)", marginBottom: 8 }}>{t("common.shortcuts")}</div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <span style={{ fontSize: 13, color: "var(--text-2)" }}>Smart Search</span>
+          <span style={{ fontSize: 13, color: "var(--text-2)" }}>{t("common.smartSearch")}</span>
           <label className="toggle-track">
             <input
               type="checkbox"
@@ -175,7 +177,7 @@ export default function AdvisorFilterPanel({ filters, onChange, totalCount, sear
       {/* Popular Filters label */}
       <div style={{ padding: "8px 16px 4px", flexShrink: 0 }}>
         <span style={{ fontSize: 12, fontWeight: 600, color: "var(--text-3)" }}>
-          Popular Filters{" "}
+          {t("common.popularFilters")}{" "}
           <span style={{
             background: "var(--surface-3)", color: "var(--text-3)",
             fontSize: 11, padding: "1px 5px", borderRadius: 8,
@@ -186,7 +188,7 @@ export default function AdvisorFilterPanel({ filters, onChange, totalCount, sear
       {/* Scrollable filter list */}
       <div style={{ overflowY: "auto", flex: 1 }}>
 
-        <FilterAccordion title="Years of experience" count={filters.yearsOfExperience.length} defaultOpen>
+        <FilterAccordion title={t("filters.yearsOfExperience")} count={filters.yearsOfExperience.length} defaultOpen>
           <CheckboxGroup
             options={ADVISOR_FILTER_OPTIONS.yearsOfExperience}
             selected={filters.yearsOfExperience}
@@ -195,7 +197,7 @@ export default function AdvisorFilterPanel({ filters, onChange, totalCount, sear
           />
         </FilterAccordion>
 
-        <FilterAccordion title="Years at current firm" count={filters.yearsAtCurrentFirm.length}>
+        <FilterAccordion title={t("filters.yearsAtCurrentFirm")} count={filters.yearsAtCurrentFirm.length}>
           <CheckboxGroup
             options={ADVISOR_FILTER_OPTIONS.yearsAtCurrentFirm}
             selected={filters.yearsAtCurrentFirm}
@@ -204,10 +206,10 @@ export default function AdvisorFilterPanel({ filters, onChange, totalCount, sear
           />
         </FilterAccordion>
 
-        <FilterAccordion title="Job title" count={filters.jobTitles.length}>
+        <FilterAccordion title={t("filters.jobTitle")} count={filters.jobTitles.length}>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             <div>
-              <div style={{ fontSize: 12, fontWeight: 500, color: "var(--text-2)", marginBottom: 6 }}>Is any of</div>
+              <div style={{ fontSize: 12, fontWeight: 500, color: "var(--text-2)", marginBottom: 6 }}>{t("filters.isAnyOf")}</div>
               <DropdownMulti
                 placeholder="Enter Job title"
                 options={ADVISOR_FILTER_OPTIONS.jobTitles}
@@ -217,7 +219,7 @@ export default function AdvisorFilterPanel({ filters, onChange, totalCount, sear
               />
             </div>
             <div>
-              <div style={{ fontSize: 12, fontWeight: 500, color: "var(--text-2)", marginBottom: 6 }}>Is not any of</div>
+              <div style={{ fontSize: 12, fontWeight: 500, color: "var(--text-2)", marginBottom: 6 }}>{t("filters.isNotAnyOf")}</div>
               <DropdownMulti
                 placeholder="Enter Job title to exclude"
                 options={ADVISOR_FILTER_OPTIONS.jobTitles}
@@ -227,7 +229,7 @@ export default function AdvisorFilterPanel({ filters, onChange, totalCount, sear
               />
             </div>
             <div>
-              <div style={{ fontSize: 12, fontWeight: 500, color: "var(--text-2)", marginBottom: 6 }}>Include past titles</div>
+              <div style={{ fontSize: 12, fontWeight: 500, color: "var(--text-2)", marginBottom: 6 }}>{t("filters.includePastTitles")}</div>
               <DropdownMulti
                 placeholder="Enter past Job title"
                 options={ADVISOR_FILTER_OPTIONS.jobTitles}
@@ -239,7 +241,7 @@ export default function AdvisorFilterPanel({ filters, onChange, totalCount, sear
           </div>
         </FilterAccordion>
 
-        <FilterAccordion title="Location" count={filters.locationZip ? 1 : 0}>
+        <FilterAccordion title={t("filters.location")} count={filters.locationZip ? 1 : 0}>
           <div>
             <div style={{ display: "flex", borderBottom: "1px solid var(--border)", marginBottom: 12 }}>
               {(["zip", "drive"] as const).map(m => (
@@ -256,7 +258,7 @@ export default function AdvisorFilterPanel({ filters, onChange, totalCount, sear
                     transition: "all 0.12s",
                   }}
                 >
-                  {m === "zip" ? "ZIP radius" : "Drive time"}
+                  {m === "zip" ? t("filters.zipRadius") : t("filters.driveTime")}
                 </button>
               ))}
             </div>
@@ -273,7 +275,7 @@ export default function AdvisorFilterPanel({ filters, onChange, totalCount, sear
               />
             </div>
             <div style={{ fontSize: 12, fontWeight: 500, color: "var(--text-2)", marginBottom: 6 }}>
-              {filters.locationMode === "zip" ? "Miles around ZIP" : "Drive time"}
+              {filters.locationMode === "zip" ? t("filters.milesAroundZip") : t("filters.driveTime")}
             </div>
             <DropdownMulti
               placeholder="Select radius"
@@ -289,7 +291,7 @@ export default function AdvisorFilterPanel({ filters, onChange, totalCount, sear
 
         <div style={{ padding: "8px 16px 4px" }}>
           <span style={{ fontSize: 12, fontWeight: 600, color: "var(--text-3)" }}>
-            Firm Details{" "}
+            {t("common.firmDetails")}{" "}
             <span style={{
               background: "var(--surface-3)", color: "var(--text-3)",
               fontSize: 11, padding: "1px 5px", borderRadius: 8,
@@ -299,9 +301,9 @@ export default function AdvisorFilterPanel({ filters, onChange, totalCount, sear
           </span>
         </div>
 
-        <FilterAccordion title="Current Firm" count={filters.currentFirms.length}>
+        <FilterAccordion title={t("filters.currentFirm")} count={filters.currentFirms.length}>
           <div style={{ marginBottom: 4, fontSize: 12, color: "var(--text-3)" }}>
-            Clear All shown when selected
+            {t("filters.clearAllShown")}
           </div>
           <DropdownMulti
             placeholder="Enter Firm title"
@@ -312,7 +314,7 @@ export default function AdvisorFilterPanel({ filters, onChange, totalCount, sear
           />
         </FilterAccordion>
 
-        <FilterAccordion title="Firm AUM" count={filters.firmAUM.length}>
+        <FilterAccordion title={t("filters.firmAUM")} count={filters.firmAUM.length}>
           <CheckboxGroup
             options={ADVISOR_FILTER_OPTIONS.firmAUM}
             selected={filters.firmAUM}
@@ -323,7 +325,7 @@ export default function AdvisorFilterPanel({ filters, onChange, totalCount, sear
 
         <div style={{ padding: "8px 16px 4px" }}>
           <span style={{ fontSize: 12, fontWeight: 600, color: "var(--text-3)" }}>
-            Advisor Details{" "}
+            {t("common.advisorDetails")}{" "}
             <span style={{
               background: "var(--surface-3)", color: "var(--text-3)",
               fontSize: 11, padding: "1px 5px", borderRadius: 8,
@@ -333,7 +335,7 @@ export default function AdvisorFilterPanel({ filters, onChange, totalCount, sear
           </span>
         </div>
 
-        <FilterAccordion title="States Registered" count={filters.statesRegistered.length}>
+        <FilterAccordion title={t("filters.statesRegistered")} count={filters.statesRegistered.length}>
           <div style={{ marginBottom: 8 }}>
             {(["is_any_of","is_not_any_of","is_all_of"] as const).map(m => (
               <label key={m} style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6, cursor: "pointer" }}>
@@ -344,7 +346,7 @@ export default function AdvisorFilterPanel({ filters, onChange, totalCount, sear
                   onChange={() => set("statesMode", m)}
                 />
                 <span style={{ fontSize: 13, color: "var(--text-2)" }}>
-                  {m === "is_any_of" ? "Is any of" : m === "is_not_any_of" ? "Is not any of" : "Is all of"}
+                  {m === "is_any_of" ? t("filters.isAnyOf") : m === "is_not_any_of" ? t("filters.isNotAnyOf") : t("filters.isAllOf")}
                 </span>
               </label>
             ))}
@@ -358,7 +360,7 @@ export default function AdvisorFilterPanel({ filters, onChange, totalCount, sear
           />
         </FilterAccordion>
 
-        <FilterAccordion title="Compliance" count={filters.compliance.length}>
+        <FilterAccordion title={t("filters.compliance")} count={filters.compliance.length}>
           <CheckboxGroup
             options={ADVISOR_FILTER_OPTIONS.compliance}
             selected={filters.compliance}
@@ -367,7 +369,7 @@ export default function AdvisorFilterPanel({ filters, onChange, totalCount, sear
           />
         </FilterAccordion>
 
-        <FilterAccordion title="Age" count={filters.ageRanges.length}>
+        <FilterAccordion title={t("filters.age")} count={filters.ageRanges.length}>
           <CheckboxGroup
             options={ADVISOR_FILTER_OPTIONS.ageRanges}
             selected={filters.ageRanges}
@@ -376,7 +378,7 @@ export default function AdvisorFilterPanel({ filters, onChange, totalCount, sear
           />
         </FilterAccordion>
 
-        <FilterAccordion title="Life Events" count={filters.lifeEvents.length}>
+        <FilterAccordion title={t("filters.lifeEvents")} count={filters.lifeEvents.length}>
           <DropdownMulti
             placeholder="Search events"
             options={ADVISOR_FILTER_OPTIONS.lifeEvents}
@@ -386,7 +388,7 @@ export default function AdvisorFilterPanel({ filters, onChange, totalCount, sear
           />
         </FilterAccordion>
 
-        <FilterAccordion title="Alma Mater" count={filters.almaMater.length}>
+        <FilterAccordion title={t("filters.almaMater")} count={filters.almaMater.length}>
           <DropdownMulti
             placeholder="Search Alma Mater"
             options={[]}

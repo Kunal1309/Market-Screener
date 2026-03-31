@@ -10,6 +10,7 @@ import Pagination from "@/components/table/Pagination";
 import DetailsPanel from "@/components/views/DetailsPanel";
 import SaveSearchModal from "@/components/filters/SaveSearchModal";
 import { MOCK_FIRMS } from "@/lib/data/firms";
+import { useTranslation } from "@/lib/i18n/LanguageContext";
 import type { FirmFilters, Column, SortState, Firm } from "@/types";
 
 const DEFAULT_FILTERS: FirmFilters = {
@@ -43,6 +44,7 @@ function countActiveFilters(f: FirmFilters) {
 }
 
 export default function FirmsView({ onTabChange }: { onTabChange: (tab: "owners" | "firms" | "advisors") => void }) {
+  const { t } = useTranslation();
   const [filters, setFilters] = useState<FirmFilters>(DEFAULT_FILTERS);
   const [columns, setColumns] = useState<Column[]>(DEFAULT_COLUMNS);
   const [sort, setSort] = useState<SortState>({ column: "", direction: null });
@@ -218,7 +220,7 @@ export default function FirmsView({ onTabChange }: { onTabChange: (tab: "owners"
               </button>
             )}
             <h1 style={{ fontSize: 20, fontWeight: 600, color: "var(--text-1)" }}>
-              Market Insights
+              {t("nav.marketInsights")}
             </h1>
           </div>
 
@@ -238,7 +240,7 @@ export default function FirmsView({ onTabChange }: { onTabChange: (tab: "owners"
             }}
           >
             <SlidersHorizontal size={14} />
-            Filters{activeCount > 0 ? ` (${activeCount})` : ""}
+            {t("common.filters")}{activeCount > 0 ? ` (${activeCount})` : ""}
           </button>
 
           {/* <div style={{ flex: 1, maxWidth: 320 }}>
@@ -273,14 +275,14 @@ export default function FirmsView({ onTabChange }: { onTabChange: (tab: "owners"
 
           <div style={{ marginLeft: "auto", display: "flex", gap: 8 }}>
             <ColumnsPicker columns={columns} onChange={setColumns} />
-            <ExportDropdown data={sortedData} columns={columns} filename="MarketInsights_Firms" title="Market Insights - Firms" />
+            <ExportDropdown data={sortedData} columns={columns} filename="MarketInsights_Firms" title={`${t("nav.marketInsights")} - ${t("nav.firms")}`} />
           </div>
         </div>
 
         <div style={{ display: "flex", gap: 32, padding: "0 20px", borderBottom: "1px solid var(--border)", background: "var(--surface)", flexShrink: 0 }}>
-          <button onClick={() => onTabChange("owners")} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-3)", padding: "12px 0", fontSize: 14, fontWeight: 500, borderBottom: "2px solid transparent" }}>Owners</button>
-          <button onClick={() => onTabChange("firms")} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-1)", padding: "12px 0", fontSize: 14, fontWeight: 500, borderBottom: "2px solid var(--brand)" }}>Firms</button>
-          <button onClick={() => onTabChange("advisors")} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-3)", padding: "12px 0", fontSize: 14, fontWeight: 500, borderBottom: "2px solid transparent" }}>Advisers</button>
+          <button onClick={() => onTabChange("owners")} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-3)", padding: "12px 0", fontSize: 14, fontWeight: 500, borderBottom: "2px solid transparent" }}>{t("nav.owners")}</button>
+          <button onClick={() => onTabChange("firms")} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-1)", padding: "12px 0", fontSize: 14, fontWeight: 500, borderBottom: "2px solid var(--brand)" }}>{t("nav.firms")}</button>
+          <button onClick={() => onTabChange("advisors")} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-3)", padding: "12px 0", fontSize: 14, fontWeight: 500, borderBottom: "2px solid transparent" }}>{t("nav.advisors")}</button>
         </div>
 
         {/* Table */}
@@ -370,7 +372,7 @@ export default function FirmsView({ onTabChange }: { onTabChange: (tab: "owners"
                       }}
                       onClick={() => handleSort(col.key)}
                     >
-                      {col.label}
+                      {t(`columns.${col.key}`) !== `columns.${col.key}` ? t(`columns.${col.key}`) : col.label}
                       {sort.column !== col.key ? <ArrowUpDown size={12} color="var(--text-4)" /> : (
                         sort.direction === "asc" ? <ChevronUp size={12} color="var(--brand)" /> : <ChevronDown size={12} color="var(--brand)" />
                       )}
@@ -433,7 +435,7 @@ export default function FirmsView({ onTabChange }: { onTabChange: (tab: "owners"
       <DetailsPanel
         open={!!selectedRow}
         onClose={() => setSelectedRow(null)}
-        title={selectedRow?.name || "Firm Details"}
+        title={selectedRow?.name || t("common.firmDetails")}
         data={selectedRow}
       />
     </div>

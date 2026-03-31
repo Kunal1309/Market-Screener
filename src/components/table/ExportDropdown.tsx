@@ -4,6 +4,7 @@ import { Download } from "lucide-react";
 import type { Column } from "@/types";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { useTranslation } from "@/lib/i18n/LanguageContext";
 
 interface ExportDropdownProps {
   data: any[];
@@ -13,8 +14,14 @@ interface ExportDropdownProps {
 }
 
 export default function ExportDropdown({ data, columns, filename, title }: ExportDropdownProps) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+
+  const getLabel = (c: Column) => {
+    const tLabel = t(`columns.${c.key}`);
+    return tLabel !== `columns.${c.key}` ? tLabel : c.label;
+  };
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -30,7 +37,7 @@ export default function ExportDropdown({ data, columns, filename, title }: Expor
 
   const exportCSV = () => {
     // 1. Get ordered headers
-    const headers = visibleColumns.map(c => c.label);
+    const headers = visibleColumns.map(getLabel);
     
     // 2. Get ordered rows
     const rows = data.map(item => {
@@ -67,7 +74,7 @@ export default function ExportDropdown({ data, columns, filename, title }: Expor
   const exportPDF = () => {
     const doc = new jsPDF("landscape");
     
-    const head = [visibleColumns.map(c => c.label)];
+    const head = [visibleColumns.map(getLabel)];
     const body = data.map(item => {
       return visibleColumns.map(c => {
         let val = item[c.key];
@@ -108,7 +115,7 @@ export default function ExportDropdown({ data, columns, filename, title }: Expor
         }}
       >
         <Download size={14} />
-        <span className="col-hide-mobile">Export</span>
+        <span className="col-hide-mobile">{t("common.export")}</span>
       </button>
 
       {open && (
@@ -129,7 +136,7 @@ export default function ExportDropdown({ data, columns, filename, title }: Expor
             onMouseEnter={e => e.currentTarget.style.background = "var(--surface-2)"}
             onMouseLeave={e => e.currentTarget.style.background = "transparent"}
           >
-            Export as CSV
+            {t("common.exportCSV")}
           </button>
           <button
             onClick={exportPDF}
@@ -142,7 +149,7 @@ export default function ExportDropdown({ data, columns, filename, title }: Expor
             onMouseEnter={e => e.currentTarget.style.background = "var(--surface-2)"}
             onMouseLeave={e => e.currentTarget.style.background = "transparent"}
           >
-            Export as PDF
+            {t("common.exportPDF")}
           </button>
         </div>
       )}

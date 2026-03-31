@@ -6,6 +6,7 @@ import CheckboxGroup from "./CheckboxGroup";
 import DropdownMulti from "./DropdownMulti";
 import SavedSearches from "./SavedSearches";
 import { OWNER_FILTER_OPTIONS } from "@/lib/data/owners";
+import { useTranslation } from "@/lib/i18n/LanguageContext";
 import type { OwnerFilters } from "@/types";
 
 interface Props {
@@ -21,6 +22,7 @@ interface Props {
 }
 
 export default function OwnerFilterPanel({ filters, onChange, totalCount, searchQuery, onSearchChange, savedFilters, onApplyFilter, onSaveRequest, onClearAll }: Props) {
+  const { t } = useTranslation();
   const [paramSearch, setParamSearch] = useState("");
 
   const set = <K extends keyof OwnerFilters>(key: K, val: OwnerFilters[K]) =>
@@ -50,7 +52,7 @@ export default function OwnerFilterPanel({ filters, onChange, totalCount, search
         justifyContent: "space-between", gap: 8, flexShrink: 0,
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <span style={{ fontSize: 14, fontWeight: 600, color: "var(--text-1)" }}>Filters</span>
+          <span style={{ fontSize: 14, fontWeight: 600, color: "var(--text-1)" }}>{t("common.filters")}</span>
           {activeCount > 0 && (
             <span style={{
               background: "var(--text-1)", color: "var(--surface)",
@@ -73,7 +75,7 @@ export default function OwnerFilterPanel({ filters, onChange, totalCount, search
           <input
             value={searchQuery}
             onChange={e => onSearchChange(e.target.value)}
-            placeholder="Search data..."
+            placeholder={t("common.searchData")}
             style={{
               flex: 1, border: "none", background: "transparent",
               fontSize: 13, color: "var(--text-1)", outline: "none",
@@ -97,7 +99,7 @@ export default function OwnerFilterPanel({ filters, onChange, totalCount, search
           <input
             value={paramSearch}
             onChange={e => setParamSearch(e.target.value)}
-            placeholder="Search by filter parameters"
+            placeholder={t("common.searchByParam")}
             style={{
               flex: 1, border: "none", background: "transparent",
               fontSize: 12, color: "var(--text-1)", outline: "none",
@@ -126,16 +128,16 @@ export default function OwnerFilterPanel({ filters, onChange, totalCount, search
             onMouseEnter={e => (e.currentTarget.style.background = "var(--surface-2)")}
             onMouseLeave={e => (e.currentTarget.style.background = "var(--surface)")}
           >
-            Clear all filters
+            {t("common.clearAll")}
           </button>
         </div>
       )}
 
       {/* Shortcuts */}
       <div style={{ padding: "10px 16px 4px", flexShrink: 0 }}>
-        <div style={{ fontSize: 12, fontWeight: 600, color: "var(--text-3)", marginBottom: 8 }}>Shortcuts</div>
+        <div style={{ fontSize: 12, fontWeight: 600, color: "var(--text-3)", marginBottom: 8 }}>{t("common.shortcuts")}</div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <span style={{ fontSize: 13, color: "var(--text-2)" }}>Smart Search</span>
+          <span style={{ fontSize: 13, color: "var(--text-2)" }}>{t("common.smartSearch")}</span>
           <label className="toggle-track">
             <input
               type="checkbox"
@@ -149,12 +151,12 @@ export default function OwnerFilterPanel({ filters, onChange, totalCount, search
 
       <div style={{ padding: "8px 16px 4px", flexShrink: 0 }}>
         <span style={{ fontSize: 12, fontWeight: 600, color: "var(--text-3)" }}>
-          Owner Details
+          {t("common.ownerDetails")}
         </span>
       </div>
 
       <div style={{ overflowY: "auto", flex: 1 }}>
-        <FilterAccordion title="Ownership %" count={filters.ownershipRanges.length} defaultOpen>
+        <FilterAccordion title={t("filters.ownershipPercent")} count={filters.ownershipRanges.length} defaultOpen>
           <CheckboxGroup
             options={OWNER_FILTER_OPTIONS.ownershipRanges}
             selected={filters.ownershipRanges}
@@ -163,7 +165,7 @@ export default function OwnerFilterPanel({ filters, onChange, totalCount, search
           />
         </FilterAccordion>
 
-        <FilterAccordion title="Role" count={filters.roles.length}>
+        <FilterAccordion title={t("filters.role")} count={filters.roles.length}>
           <DropdownMulti
             placeholder="Select Roles"
             options={OWNER_FILTER_OPTIONS.roles}
@@ -173,7 +175,7 @@ export default function OwnerFilterPanel({ filters, onChange, totalCount, search
           />
         </FilterAccordion>
 
-        <FilterAccordion title="Age" count={filters.ageRanges.length}>
+        <FilterAccordion title={t("filters.age")} count={filters.ageRanges.length}>
           <CheckboxGroup
             options={OWNER_FILTER_OPTIONS.ageRanges}
             selected={filters.ageRanges}
@@ -182,7 +184,7 @@ export default function OwnerFilterPanel({ filters, onChange, totalCount, search
           />
         </FilterAccordion>
 
-        <FilterAccordion title="Tenure" count={filters.tenureRanges.length}>
+        <FilterAccordion title={t("filters.tenure")} count={filters.tenureRanges.length}>
           <CheckboxGroup
             options={OWNER_FILTER_OPTIONS.tenureRanges}
             selected={filters.tenureRanges}
@@ -191,7 +193,7 @@ export default function OwnerFilterPanel({ filters, onChange, totalCount, search
           />
         </FilterAccordion>
 
-        <FilterAccordion title="Location" count={filters.locationZip ? 1 : 0}>
+        <FilterAccordion title={t("filters.location")} count={filters.locationZip ? 1 : 0}>
           <div style={{ marginBottom: 8 }}>
             <input
               value={filters.locationZip}

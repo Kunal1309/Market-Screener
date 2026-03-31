@@ -28,7 +28,7 @@ export default function AUMGrowthChart({ data }: Props) {
               border: "1px solid var(--border)",
               boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
             }}
-            formatter={(val: number, name: string) => [
+            formatter={(val: any, name: any) => [
               `$${val}B`,
               name === "firmAUM" ? "Firm AUM" : "Market Average",
             ]}

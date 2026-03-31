@@ -4,6 +4,8 @@ import { Search, X, Menu, Sun, Moon, LogOut, User } from "lucide-react";
 import { useTheme } from "next-themes";
 import { MOCK_FIRMS } from "@/lib/data/firms";
 import { MOCK_ADVISORS } from "@/lib/data/advisors";
+import LanguageSwitcher from "@/components/layout/LanguageSwitcher";
+import { useTranslation } from "@/lib/i18n/LanguageContext";
 
 interface Props {
   onHamburger?: () => void;
@@ -16,6 +18,7 @@ export default function TopBar({ onHamburger }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
   const { theme, setTheme, resolvedTheme } = useTheme();
+  const { t } = useTranslation();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
@@ -82,7 +85,7 @@ export default function TopBar({ onHamburger }: Props) {
             value={q}
             onChange={e => { setQ(e.target.value); setOpen(true); }}
             onFocus={() => setOpen(true)}
-            placeholder="Search by name or CRD…"
+            placeholder={t("common.searchData")}
             style={{
               flex: 1, border: "none", background: "transparent",
               fontSize: 13, color: "var(--text-1)", outline: "none", minWidth: 0,
@@ -130,6 +133,8 @@ export default function TopBar({ onHamburger }: Props) {
 
       {/* Avatar */}
       <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 12 }}>
+        <LanguageSwitcher />
+
         {/* Theme Toggle */}
         <button
           onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
@@ -175,7 +180,7 @@ export default function TopBar({ onHamburger }: Props) {
               zIndex: 50, padding: 8,
             }} className="anim-fadeUp">
               <div style={{ padding: "8px 8px 12px", borderBottom: "1px solid var(--border)", marginBottom: 8 }}>
-                <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-1)" }}>User Profile</div>
+                <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-1)" }}>{t("common.userProfile")}</div>
                 <div style={{ fontSize: 12, color: "var(--text-3)", marginTop: 2 }}>user@example.com</div>
               </div>
               <button 
@@ -189,7 +194,7 @@ export default function TopBar({ onHamburger }: Props) {
                 onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "var(--surface-2)"}
                 onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "transparent"}
               >
-                <User size={15} /> My Profile
+                <User size={15} /> {t("common.myProfile")}
               </button>
               <button 
                 onClick={() => setProfileOpen(false)}
@@ -203,7 +208,7 @@ export default function TopBar({ onHamburger }: Props) {
                 onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "var(--surface-2)"}
                 onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "transparent"}
               >
-                <LogOut size={15} /> Sign Out
+                <LogOut size={15} /> {t("common.signOut")}
               </button>
             </div>
           )}
