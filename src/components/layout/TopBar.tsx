@@ -1,6 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import { Search, X, Menu } from "lucide-react";
+import { Search, X, Menu, Sun, Moon, LogOut, User } from "lucide-react";
+import { useTheme } from "next-themes";
 import { MOCK_FIRMS } from "@/lib/data/firms";
 import { MOCK_ADVISORS } from "@/lib/data/advisors";
 
@@ -11,7 +12,13 @@ interface Props {
 export default function TopBar({ onHamburger }: Props) {
   const [q, setQ]       = useState("");
   const [open, setOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const profileRef = useRef<HTMLDivElement>(null);
+  const { theme, setTheme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   const results = q.length > 1 ? [
     ...MOCK_FIRMS
@@ -27,6 +34,7 @@ export default function TopBar({ onHamburger }: Props) {
   useEffect(() => {
     const h = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+      if (profileRef.current && !profileRef.current.contains(e.target as Node)) setProfileOpen(false);
     };
     document.addEventListener("mousedown", h);
     return () => document.removeEventListener("mousedown", h);
@@ -35,7 +43,7 @@ export default function TopBar({ onHamburger }: Props) {
   return (
     <header style={{
       height: 56,
-      background: "white",
+      background: "var(--surface)",
       borderBottom: "1px solid var(--border)",
       display: "flex",
       alignItems: "center",
@@ -52,7 +60,7 @@ export default function TopBar({ onHamburger }: Props) {
         style={{
           width: 34, height: 34, borderRadius: 8,
           border: "1px solid var(--border)",
-          background: "white", cursor: "pointer",
+          background: "var(--surface)", cursor: "pointer",
           display: "none",
           alignItems: "center", justifyContent: "center",
           flexShrink: 0,
@@ -91,7 +99,7 @@ export default function TopBar({ onHamburger }: Props) {
         {open && results.length > 0 && (
           <div style={{
             position: "absolute", top: "calc(100% + 6px)", left: 0, right: 0,
-            background: "white", border: "1px solid var(--border)",
+            background: "var(--surface)", border: "1px solid var(--border)",
             borderRadius: 8, boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
             overflow: "hidden", zIndex: 50,
           }} className="anim-fadeUp">
@@ -101,10 +109,10 @@ export default function TopBar({ onHamburger }: Props) {
                   padding: "9px 14px", cursor: "pointer",
                   display: "flex", alignItems: "center", gap: 10,
                   borderBottom: i < results.length - 1 ? "1px solid var(--surface-3)" : "none",
-                  background: "white", transition: "background 0.1s",
+                  background: "var(--surface)", transition: "background 0.1s",
                 }}
                 onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "var(--surface-2)"}
-                onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "white"}
+                onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "var(--surface)"}
               >
                 <div style={{
                   width: 7, height: 7, borderRadius: "50%", flexShrink: 0,
@@ -121,15 +129,84 @@ export default function TopBar({ onHamburger }: Props) {
       </div>
 
       {/* Avatar */}
-      <div style={{ marginLeft: "auto" }}>
-        <div style={{
-          width: 30, height: 30, borderRadius: "50%",
-          background: "var(--brand)",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: 12, fontWeight: 600, color: "white",
-          cursor: "pointer", userSelect: "none", flexShrink: 0,
-        }}>
-          U
+      <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 12 }}>
+        {/* Theme Toggle */}
+        <button
+          onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+          style={{
+            background: "transparent", border: "none", cursor: "pointer",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            width: 34, height: 34, borderRadius: 8,
+            color: "var(--text-3)",
+            transition: "0.15s",
+          }}
+          onMouseEnter={e => {
+            (e.currentTarget as HTMLElement).style.background = "var(--surface-2)";
+            (e.currentTarget as HTMLElement).style.color = "var(--text-1)";
+          }}
+          onMouseLeave={e => {
+            (e.currentTarget as HTMLElement).style.background = "transparent";
+            (e.currentTarget as HTMLElement).style.color = "var(--text-3)";
+          }}
+          aria-label="Toggle Dark Mode"
+        >
+          {mounted && (resolvedTheme === "dark" ? <Sun size={18} /> : <Moon size={18} />)}
+        </button>
+
+        {/* Avatar & Profile Dropdown */}
+        <div ref={profileRef} style={{ position: "relative" }}>
+          <div 
+            onClick={() => setProfileOpen(!profileOpen)}
+            style={{
+              width: 32, height: 32, borderRadius: "50%",
+              background: "var(--brand)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: 13, fontWeight: 600, color: "white",
+              cursor: "pointer", userSelect: "none", flexShrink: 0,
+            }}>
+            U
+          </div>
+
+          {profileOpen && (
+            <div style={{
+              position: "absolute", top: "calc(100% + 8px)", right: 0,
+              width: 200, background: "var(--surface)", border: "1px solid var(--border)",
+              borderRadius: 8, boxShadow: "0 4px 20px rgba(0,0,0,0.15)",
+              zIndex: 50, padding: 8,
+            }} className="anim-fadeUp">
+              <div style={{ padding: "8px 8px 12px", borderBottom: "1px solid var(--border)", marginBottom: 8 }}>
+                <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-1)" }}>User Profile</div>
+                <div style={{ fontSize: 12, color: "var(--text-3)", marginTop: 2 }}>user@example.com</div>
+              </div>
+              <button 
+                onClick={() => setProfileOpen(false)}
+                style={{
+                  width: "100%", textAlign: "left", background: "transparent", border: "none",
+                  padding: "8px 12px", fontSize: 13, color: "var(--text-2)", cursor: "pointer",
+                  display: "flex", alignItems: "center", gap: 10, borderRadius: 6, transition: "0.1s",
+                  fontWeight: 500,
+                }}
+                onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "var(--surface-2)"}
+                onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "transparent"}
+              >
+                <User size={15} /> My Profile
+              </button>
+              <button 
+                onClick={() => setProfileOpen(false)}
+                style={{
+                  width: "100%", textAlign: "left", background: "transparent", border: "none",
+                  padding: "8px 12px", fontSize: 13, color: "var(--danger)", cursor: "pointer",
+                  display: "flex", alignItems: "center", gap: 10, borderRadius: 6, transition: "0.1s",
+                  fontWeight: 500,
+                  marginTop: 2,
+                }}
+                onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "var(--surface-2)"}
+                onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "transparent"}
+              >
+                <LogOut size={15} /> Sign Out
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </header>

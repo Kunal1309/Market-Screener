@@ -11,9 +11,15 @@ import type { FirmFilters } from "@/types";
 interface Props {
   filters: FirmFilters;
   onChange: (f: FirmFilters) => void;
+  totalCount: number;
+  searchQuery: string;
+  onSearchChange: (q: string) => void;
+  savedFilters: { name: string; filters: any }[];
+  onApplyFilter: (filters: any) => void;
+  onSaveRequest: () => void;
 }
 
-export default function FirmFilterPanel({ filters, onChange }: Props) {
+export default function FirmFilterPanel({ filters, onChange, totalCount, searchQuery, onSearchChange, savedFilters, onApplyFilter, onSaveRequest }: Props) {
   const [paramSearch, setParamSearch] = useState("");
 
   const set = <K extends keyof FirmFilters>(key: K, val: FirmFilters[K]) =>
@@ -37,7 +43,7 @@ export default function FirmFilterPanel({ filters, onChange }: Props) {
       style={{
         width: 280,
         flexShrink: 0,
-        background: "white",
+        background: "var(--surface)",
         borderRight: "1px solid var(--border)",
         display: "flex",
         flexDirection: "column",
@@ -76,17 +82,35 @@ export default function FirmFilterPanel({ filters, onChange }: Props) {
             </span>
           )}
         </div>
-        <SavedSearches />
+        <SavedSearches savedFilters={savedFilters} onApply={onApplyFilter} onSaveRequest={onSaveRequest} />
       </div>
 
-      {/* Search by param */}
-      <div
-        style={{
-          padding: "10px 16px",
-          borderBottom: "1px solid var(--surface-3)",
-          flexShrink: 0,
-        }}
-      >
+      {/* Global Search */}
+      <div style={{ padding: "10px 16px", borderBottom: "1px solid var(--surface-3)" }}>
+        <div style={{
+          display: "flex", alignItems: "center", gap: 7,
+          background: "var(--surface)", border: "1px solid var(--border)",
+          borderRadius: 8, padding: "6px 10px", marginBottom: 10
+        }}>
+          <Search size={14} color="var(--text-3)" />
+          <input
+            value={searchQuery}
+            onChange={e => onSearchChange(e.target.value)}
+            placeholder="Search data..."
+            style={{
+              flex: 1, border: "none", background: "transparent",
+              fontSize: 13, color: "var(--text-1)", outline: "none",
+            }}
+          />
+          {searchQuery && (
+            <button onClick={() => onSearchChange("")}
+              style={{ background: "none", border: "none", cursor: "pointer", display: "flex", padding: 0 }}>
+              <X size={14} color="var(--text-3)" />
+            </button>
+          )}
+        </div>
+
+      {/* Local Filter Param Search */}
         <div
           style={{
             display: "flex",

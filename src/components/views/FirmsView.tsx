@@ -1,6 +1,6 @@
 "use client";
 import { useState, useMemo } from "react";
-import { Search, SlidersHorizontal, ArrowUpDown, ChevronDown, ChevronUp } from "lucide-react";
+import { Search, SlidersHorizontal, ArrowUpDown, ChevronDown, ChevronUp, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import FirmFilterPanel from "@/components/filters/FirmFilterPanel";
 import FilterDrawer from "@/components/filters/FilterDrawer";
@@ -47,12 +47,14 @@ export default function FirmsView({ onTabChange }: { onTabChange: (tab: "owners"
   const [columns, setColumns] = useState<Column[]>(DEFAULT_COLUMNS);
   const [sort, setSort] = useState<SortState>({ column: "", direction: null });
   const [selectedRow, setSelectedRow] = useState<Firm | null>(null);
+  const [isFilterOpen, setIsFilterOpen] = useState(true);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [showSave, setShowSave] = useState(false);
   const [filterDrawer, setFilterDrawer] = useState(false);
   const [dragOverCol, setDragOverCol] = useState<string | null>(null);
+  const [savedFilters, setSavedFilters] = useState<{name: string, filters: FirmFilters}[]>([]);
 
   const handleSort = (col: string) => {
     setSort(prev => {
@@ -127,15 +129,53 @@ export default function FirmsView({ onTabChange }: { onTabChange: (tab: "owners"
     <FirmFilterPanel
       filters={filters}
       onChange={f => { setFilters(f); resetPage(); }}
+      totalCount={filtered.length}
+      searchQuery={search}
+      onSearchChange={setSearch}
+      savedFilters={savedFilters}
+      onApplyFilter={(f: FirmFilters) => { setFilters(f); resetPage(); }}
+      onSaveRequest={() => setShowSave(true)}
     />
   );
 
   return (
-    <div style={{ display: "flex", height: "100%", overflow: "hidden" }}>
+    <div style={{ display: "flex", height: "100%", overflow: "hidden", position: "relative" }}>
 
-      {/* Desktop filter panel */}
-      <div className="filter-panel-desktop" style={{ display: "flex", height: "100%", flexShrink: 0 }}>
-        {filterPanel}
+      <button
+        className="filter-panel-desktop"
+        onClick={() => setIsFilterOpen(!isFilterOpen)}
+        style={{
+          position: "absolute",
+          top: 18,
+          left: isFilterOpen ? 266 : -14,
+          zIndex: 200,
+          width: 28, height: 28,
+          borderRadius: "50%",
+          background: "var(--surface)",
+          border: "1px solid var(--border)",
+          cursor: "pointer",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+          transition: "left 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          transform: isFilterOpen ? "translateX(0)" : "translateX(28px)",
+        }}
+      >
+        {isFilterOpen ? <ChevronLeft size={16} color="var(--text-3)" /> : <ChevronRight size={16} color="var(--text-3)" />}
+      </button>
+
+      <div
+        className="filter-panel-desktop"
+        style={{
+          display: "flex", height: "100%", flexShrink: 0,
+          width: isFilterOpen ? 280 : 0,
+          transition: "width 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          overflow: "hidden",
+          borderRight: isFilterOpen ? "1px solid var(--border)" : "none",
+        }}
+      >
+        <div style={{ width: 280, flexShrink: 0 }}>
+          {filterPanel}
+        </div>
       </div>
 
       {/* Mobile filter drawer */}
@@ -156,7 +196,7 @@ export default function FirmsView({ onTabChange }: { onTabChange: (tab: "owners"
           style={{
             display: "flex", alignItems: "center", gap: 10,
             padding: "12px 16px", borderBottom: "1px solid var(--border)",
-            background: "white", flexShrink: 0,
+            background: "var(--surface)", flexShrink: 0,
           }}
         >
           <h1 style={{ fontSize: 20, fontWeight: 600, color: "var(--text-1)" }}>
@@ -172,7 +212,7 @@ export default function FirmsView({ onTabChange }: { onTabChange: (tab: "owners"
               padding: "6px 12px",
               border: activeCount > 0 ? "1px solid var(--brand)" : "1px solid var(--border)",
               borderRadius: 8,
-              background: activeCount > 0 ? "var(--brand-light)" : "white",
+              background: activeCount > 0 ? "var(--brand-light)" : "var(--surface)",
               color: activeCount > 0 ? "var(--brand)" : "var(--text-2)",
               fontSize: 13, fontWeight: 500, cursor: "pointer",
               flexShrink: 0,
@@ -218,14 +258,14 @@ export default function FirmsView({ onTabChange }: { onTabChange: (tab: "owners"
           </div>
         </div>
 
-        <div style={{ display: "flex", gap: 32, padding: "0 20px", borderBottom: "1px solid var(--border)", background: "white", flexShrink: 0 }}>
+        <div style={{ display: "flex", gap: 32, padding: "0 20px", borderBottom: "1px solid var(--border)", background: "var(--surface)", flexShrink: 0 }}>
           <button onClick={() => onTabChange("owners")} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-3)", padding: "12px 0", fontSize: 14, fontWeight: 500, borderBottom: "2px solid transparent" }}>Owners</button>
           <button onClick={() => onTabChange("firms")} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-1)", padding: "12px 0", fontSize: 14, fontWeight: 500, borderBottom: "2px solid var(--brand)" }}>Firms</button>
           <button onClick={() => onTabChange("advisors")} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-3)", padding: "12px 0", fontSize: 14, fontWeight: 500, borderBottom: "2px solid transparent" }}>Advisers</button>
         </div>
 
         {/* Table */}
-        <div style={{ flex: 1, overflow: "auto", background: "white" }}>
+        <div style={{ flex: 1, overflow: "auto", background: "var(--surface)" }}>
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
             <thead>
               <tr>
@@ -248,7 +288,7 @@ export default function FirmsView({ onTabChange }: { onTabChange: (tab: "owners"
                       const dragPreview = document.createElement("div");
                       dragPreview.style.position = "absolute";
                       dragPreview.style.top = "-9999px";
-                      dragPreview.style.background = "white";
+                      dragPreview.style.background = "var(--surface)";
                       dragPreview.style.border = "1px solid #ddd";
 
                       // ✅ 1. Add HEADER first
@@ -298,7 +338,7 @@ export default function FirmsView({ onTabChange }: { onTabChange: (tab: "owners"
                       fontSize: 12, fontWeight: 500, color: "var(--text-3)",
                       borderBottom: "1px solid var(--border)",
                       borderRight: "1px solid var(--surface-3)",
-                      background: dragOverCol === col.key ? "var(--surface-2)" : "white",
+                      background: dragOverCol === col.key ? "var(--surface-2)" : "var(--surface)",
                       whiteSpace: "nowrap",
                       position: "sticky", top: 0, zIndex: 1,
                     }}
@@ -364,7 +404,10 @@ export default function FirmsView({ onTabChange }: { onTabChange: (tab: "owners"
       {showSave && (
         <SaveSearchModal
           onClose={() => setShowSave(false)}
-          onSave={name => console.log("Saved:", name)}
+          onSave={name => {
+            setSavedFilters(prev => [...prev, { name, filters }]);
+            setShowSave(false);
+          }}
         />
       )}
 

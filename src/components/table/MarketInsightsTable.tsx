@@ -43,7 +43,7 @@ export default function MarketInsightsTable({ firms, columns }: Props) {
     padding: "10px 14px", textAlign: "left",
     fontSize: 12, fontWeight: 500, color: "var(--text-3)",
     borderBottom: "1px solid var(--border)",
-    background: "white", whiteSpace: "nowrap",
+    background: "var(--surface)", whiteSpace: "nowrap",
     position: "sticky", top: 0, zIndex: 1,
   };
 

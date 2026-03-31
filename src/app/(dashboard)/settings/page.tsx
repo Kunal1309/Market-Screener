@@ -13,7 +13,7 @@ export default function SettingsPage() {
           <div style={{ fontSize: 12, fontWeight: 600, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 8 }}>
             {section.label}
           </div>
-          <div style={{ background: "white", borderRadius: 10, border: "1px solid var(--border)", overflow: "hidden" }}>
+          <div style={{ background: "var(--surface)", borderRadius: 10, border: "1px solid var(--border)", overflow: "hidden" }}>
             {section.items.map((item, i) => (
               <div key={item} style={{
                 display: "flex", alignItems: "center", justifyContent: "space-between",

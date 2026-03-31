@@ -28,7 +28,7 @@ export default function HomePage() {
       <div style={{
         display: "flex", alignItems: "center", justifyContent: "flex-end",
         padding: "12px 24px", gap: 12,
-        background: "white", borderBottom: "1px solid var(--border)",
+        background: "var(--surface)", borderBottom: "1px solid var(--border)",
       }}>
         <Link href="/market-insights" style={{ fontSize: 13, color: "var(--text-2)", textDecoration: "none" }}>
           Back to Website
@@ -61,7 +61,7 @@ export default function HomePage() {
         <div style={{ position: "relative", maxWidth: 580, margin: "0 auto" }}>
           <div style={{
             display: "flex", alignItems: "center", gap: 10,
-            background: "white", border: "1px solid var(--border)",
+            background: "var(--surface)", border: "1px solid var(--border)",
             borderRadius: 12, padding: "12px 16px",
             boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
           }}>
@@ -93,7 +93,7 @@ export default function HomePage() {
           {open && results.length > 0 && (
             <div style={{
               position: "absolute", top: "calc(100% + 6px)", left: 0, right: 0,
-              background: "white", border: "1px solid var(--border)",
+              background: "var(--surface)", border: "1px solid var(--border)",
               borderRadius: 10, boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
               overflow: "hidden", zIndex: 50, textAlign: "left",
             }}>
@@ -102,10 +102,10 @@ export default function HomePage() {
                   display: "flex", alignItems: "center", gap: 12,
                   padding: "11px 16px", textDecoration: "none",
                   borderBottom: i < results.length - 1 ? "1px solid var(--surface-3)" : "none",
-                  background: "white", transition: "background 0.1s",
+                  background: "var(--surface)", transition: "background 0.1s",
                 }}
                   onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "var(--surface-2)"}
-                  onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "white"}
+                  onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "var(--surface)"}
                 >
                   <div style={{
                     width: 28, height: 28, borderRadius: 6, flexShrink: 0,
@@ -208,7 +208,7 @@ export default function HomePage() {
             </div>
           </div>
           <Link href="/market-insights" style={{
-            padding: "10px 20px", background: "white",
+            padding: "10px 20px", background: "var(--surface)",
             color: "var(--brand)", borderRadius: 8,
             fontSize: 13, fontWeight: 600,
             textDecoration: "none", flexShrink: 0, whiteSpace: "nowrap",
@@ -230,7 +230,7 @@ function LeaderboardCard({ icon, title, subtitle, items }: {
 }) {
   return (
     <div style={{
-      background: "white", borderRadius: 12,
+      background: "var(--surface)", borderRadius: 12,
       border: "1px solid var(--border)", overflow: "hidden",
     }}>
       <div style={{ padding: "16px 20px", borderBottom: "1px solid var(--surface-3)" }}>

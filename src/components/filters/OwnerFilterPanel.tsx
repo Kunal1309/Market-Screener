@@ -12,9 +12,14 @@ interface Props {
   filters: OwnerFilters;
   onChange: (f: OwnerFilters) => void;
   totalCount: number;
+  searchQuery: string;
+  onSearchChange: (q: string) => void;
+  savedFilters: { name: string; filters: any }[];
+  onApplyFilter: (filters: any) => void;
+  onSaveRequest: () => void;
 }
 
-export default function OwnerFilterPanel({ filters, onChange, totalCount }: Props) {
+export default function OwnerFilterPanel({ filters, onChange, totalCount, searchQuery, onSearchChange, savedFilters, onApplyFilter, onSaveRequest }: Props) {
   const [paramSearch, setParamSearch] = useState("");
 
   const set = <K extends keyof OwnerFilters>(key: K, val: OwnerFilters[K]) =>
@@ -31,7 +36,7 @@ export default function OwnerFilterPanel({ filters, onChange, totalCount }: Prop
   return (
     <aside style={{
       width: 280, flexShrink: 0,
-      background: "white",
+      background: "var(--surface)",
       borderRight: "1px solid var(--border)",
       display: "flex", flexDirection: "column",
       overflowY: "auto", height: "100%",
@@ -47,17 +52,41 @@ export default function OwnerFilterPanel({ filters, onChange, totalCount }: Prop
           <span style={{ fontSize: 14, fontWeight: 600, color: "var(--text-1)" }}>Filters</span>
           {activeCount > 0 && (
             <span style={{
-              background: "var(--text-1)", color: "white",
+              background: "var(--text-1)", color: "var(--surface)",
               fontSize: 11, fontWeight: 600,
               padding: "1px 7px", borderRadius: 10,
             }}>{activeCount}</span>
           )}
         </div>
-        <SavedSearches />
+        <SavedSearches savedFilters={savedFilters} onApply={onApplyFilter} onSaveRequest={onSaveRequest} />
       </div>
 
-      {/* Search by param */}
+      {/* Global Search */}
       <div style={{ padding: "10px 16px", borderBottom: "1px solid var(--surface-3)", flexShrink: 0 }}>
+        <div style={{
+          display: "flex", alignItems: "center", gap: 7,
+          background: "var(--surface)", border: "1px solid var(--border)",
+          borderRadius: 8, padding: "6px 10px", marginBottom: 10
+        }}>
+          <Search size={14} color="var(--text-3)" />
+          <input
+            value={searchQuery}
+            onChange={e => onSearchChange(e.target.value)}
+            placeholder="Search data..."
+            style={{
+              flex: 1, border: "none", background: "transparent",
+              fontSize: 13, color: "var(--text-1)", outline: "none",
+            }}
+          />
+          {searchQuery && (
+            <button onClick={() => onSearchChange("")}
+              style={{ background: "none", border: "none", cursor: "pointer", display: "flex", padding: 0 }}>
+              <X size={14} color="var(--text-3)" />
+            </button>
+          )}
+        </div>
+
+      {/* Search by param */}
         <div style={{
           display: "flex", alignItems: "center", gap: 7,
           background: "var(--surface-2)", border: "1px solid var(--border)",

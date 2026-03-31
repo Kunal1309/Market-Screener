@@ -33,7 +33,7 @@ export default function MarketInsightsFilterPanel({ filters, onChange }: Props) 
   return (
     <aside style={{
       width: 280, flexShrink: 0,
-      background: "white",
+      background: "var(--surface)",
       borderRight: "1px solid var(--border)",
       display: "flex", flexDirection: "column",
       height: "100%",
@@ -49,7 +49,7 @@ export default function MarketInsightsFilterPanel({ filters, onChange }: Props) 
           <span style={{ fontSize: 14, fontWeight: 600, color: "var(--text-1)" }}>Filters</span>
           {activeCount > 0 && (
             <span style={{
-              background: "var(--text-1)", color: "white",
+              background: "var(--text-1)", color: "var(--surface)",
               fontSize: 11, fontWeight: 600,
               padding: "1px 7px", borderRadius: 10,
             }}>{activeCount}</span>

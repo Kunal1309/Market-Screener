@@ -38,7 +38,7 @@ export default function DropdownMulti({ placeholder, options, selected, onChange
         style={{
           width: "100%", display: "flex", alignItems: "center",
           justifyContent: "space-between", padding: "7px 11px",
-          background: "white",
+          background: "var(--surface)",
           border: `1px solid ${open ? "var(--brand)" : "var(--border)"}`,
           borderRadius: 8, cursor: "pointer",
           fontSize: 13, color: "var(--text-3)",
@@ -81,7 +81,7 @@ export default function DropdownMulti({ placeholder, options, selected, onChange
           className="anim-fadeUp"
           style={{
             position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0,
-            background: "white", border: "1px solid var(--border)",
+            background: "var(--surface)", border: "1px solid var(--border)",
             borderRadius: 8, boxShadow: "0 4px 16px rgba(0,0,0,0.08)",
             zIndex: 100, overflow: "hidden", display: "flex", flexDirection: "column",
           }}
@@ -115,10 +115,10 @@ export default function DropdownMulti({ placeholder, options, selected, onChange
                   display: "flex", alignItems: "center", gap: 8,
                   padding: "8px 12px", cursor: "pointer",
                   borderBottom: "1px solid var(--surface-3)",
-                  background: "white", transition: "background 0.1s",
+                  background: "var(--surface)", transition: "background 0.1s",
                 }}
                 onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "var(--surface-2)"}
-                onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "white"}
+                onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "var(--surface)"}
               >
                 <input
                   type="checkbox"

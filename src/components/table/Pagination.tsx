@@ -14,7 +14,7 @@ export default function Pagination({ page, totalPages, perPage, onPage, onPerPag
     <div style={{
       display: "flex", alignItems: "center", gap: 12,
       padding: "10px 16px", borderTop: "1px solid var(--border)",
-      background: "white", flexShrink: 0, fontSize: 13,
+      background: "var(--surface)", flexShrink: 0, fontSize: 13,
     }}>
       <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
         <select
@@ -23,7 +23,7 @@ export default function Pagination({ page, totalPages, perPage, onPage, onPerPag
           style={{
             padding: "4px 8px", border: "1px solid var(--border)",
             borderRadius: 6, fontSize: 13, color: "var(--text-2)",
-            background: "white", cursor: "pointer", outline: "none",
+            background: "var(--surface)", cursor: "pointer", outline: "none",
           }}
         >
           {[10, 25, 50, 100].map(n => (
@@ -44,7 +44,7 @@ export default function Pagination({ page, totalPages, perPage, onPage, onPerPag
           disabled={page <= 1}
           style={{
             width: 28, height: 28, border: "1px solid var(--border)",
-            borderRadius: 6, background: "white", cursor: page > 1 ? "pointer" : "not-allowed",
+            borderRadius: 6, background: "var(--surface)", cursor: page > 1 ? "pointer" : "not-allowed",
             display: "flex", alignItems: "center", justifyContent: "center",
             opacity: page <= 1 ? 0.4 : 1,
           }}
@@ -56,7 +56,7 @@ export default function Pagination({ page, totalPages, perPage, onPage, onPerPag
           disabled={page >= totalPages}
           style={{
             width: 28, height: 28, border: "1px solid var(--border)",
-            borderRadius: 6, background: "white", cursor: page < totalPages ? "pointer" : "not-allowed",
+            borderRadius: 6, background: "var(--surface)", cursor: page < totalPages ? "pointer" : "not-allowed",
             display: "flex", alignItems: "center", justifyContent: "center",
             opacity: page >= totalPages ? 0.4 : 1,
           }}

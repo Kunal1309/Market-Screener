@@ -17,7 +17,7 @@ export default function FirmProfilePage() {
     <div className="firm-page-layout" style={{ display: "flex", height: "100%", overflow: "hidden", background: "var(--surface-3)" }}>
 
       <aside className="firm-page-sidebar" style={{
-        width: 220, flexShrink: 0, background: "white",
+        width: 220, flexShrink: 0, background: "var(--surface)",
         borderRight: "1px solid var(--border)",
         overflowY: "auto", padding: "16px 0",
       }}>
@@ -130,7 +130,7 @@ export default function FirmProfilePage() {
 
           <h2 style={{ fontSize: 18, fontWeight: 600, color: "var(--text-1)", marginBottom: 16 }}>Overview</h2>
 
-          <div style={{ border: "1px solid var(--brand-light)", borderRadius: 12, padding: "16px 20px", marginBottom: 20, background: "white" }}>
+          <div style={{ border: "1px solid var(--brand-light)", borderRadius: 12, padding: "16px 20px", marginBottom: 20, background: "var(--surface)" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <span style={{ fontSize: 14, color: "var(--brand)" }}>&#10022;</span>
@@ -153,7 +153,7 @@ export default function FirmProfilePage() {
           </div>
 
           <div className="firm-grid-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 24 }}>
-            <div style={{ background: "white", borderRadius: 12, padding: "16px 20px", border: "1px solid var(--border)" }}>
+            <div style={{ background: "var(--surface)", borderRadius: 12, padding: "16px 20px", border: "1px solid var(--border)" }}>
               <div style={{ fontSize: 14, fontWeight: 600, color: "var(--text-1)", marginBottom: 4 }}>AUM Composition</div>
               <div style={{ position: "relative" }}>
                 <AUMDonutChart data={firm.aumComposition} />
@@ -178,7 +178,7 @@ export default function FirmProfilePage() {
               </div>
             </div>
 
-            <div style={{ background: "white", borderRadius: 12, padding: "16px 20px", border: "1px solid var(--border)" }}>
+            <div style={{ background: "var(--surface)", borderRadius: 12, padding: "16px 20px", border: "1px solid var(--border)" }}>
               <div style={{ fontSize: 14, fontWeight: 600, color: "var(--text-1)", marginBottom: 4 }}>AUM Growth Trend</div>
               <div style={{ fontSize: 12, color: "var(--text-3)", marginBottom: 12 }}>5-Year performance vs market average</div>
               <AUMGrowthChart data={firm.aumGrowthTrend} />
@@ -187,7 +187,7 @@ export default function FirmProfilePage() {
 
           <h2 style={{ fontSize: 18, fontWeight: 600, color: "var(--text-1)", marginBottom: 16 }}>Acquisition</h2>
 
-          <div style={{ background: "white", borderRadius: 12, border: "1px solid var(--border)", overflow: "hidden", marginBottom: 16 }}>
+          <div style={{ background: "var(--surface)", borderRadius: 12, border: "1px solid var(--border)", overflow: "hidden", marginBottom: 16 }}>
             <div style={{ padding: "14px 20px", borderBottom: "1px solid var(--surface-3)" }}>
               <span style={{ fontSize: 14, fontWeight: 600, color: "var(--text-1)" }}>Acquisition Insights</span>
             </div>
@@ -228,14 +228,14 @@ export default function FirmProfilePage() {
                 <div style={{ fontSize: 12, color: "var(--text-3)", textAlign: "center", marginBottom: 16 }}>
                   To unlock detailed acquisition timeline, target profiles, and valuation trends.
                 </div>
-                <button style={{ padding: "9px 20px", background: "var(--brand)", color: "white", border: "none", borderRadius: 8, fontSize: 13, fontWeight: 500, cursor: "pointer" }}>
+                <button style={{ padding: "9px 20px", background: "var(--brand)", color: "var(--surface)", border: "none", borderRadius: 8, fontSize: 13, fontWeight: 500, cursor: "pointer" }}>
                   Upgrade to Premium
                 </button>
               </div>
             </div>
           </div>
 
-          <div style={{ background: "white", borderRadius: 12, border: "1px solid var(--border)", padding: "16px 20px", marginBottom: 24 }}>
+          <div style={{ background: "var(--surface)", borderRadius: 12, border: "1px solid var(--border)", padding: "16px 20px", marginBottom: 24 }}>
             <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-1)", marginBottom: 10 }}>Acquisition History:</div>
             <div style={{ display: "flex", gap: 24 }}>
               <span style={{ fontSize: 13, color: "var(--text-2)" }}>
@@ -278,12 +278,12 @@ export default function FirmProfilePage() {
                 <div key={p.period} style={{ background: "rgba(255,255,255,0.12)", borderRadius: 10, padding: 16, border: p.highlight ? "1px solid rgba(255,255,255,0.4)" : "1px solid transparent" }}>
                   <div style={{ fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.7)", letterSpacing: "0.08em", marginBottom: 6 }}>
                     {p.period}
-                    {p.highlight && <span style={{ marginLeft: 8, background: "#10B981", color: "white", fontSize: 10, padding: "1px 6px", borderRadius: 4 }}>Save 20%</span>}
+                    {p.highlight && <span style={{ marginLeft: 8, background: "#10B981", color: "var(--surface)", fontSize: 10, padding: "1px 6px", borderRadius: 4 }}>Save 20%</span>}
                   </div>
                   <div style={{ fontSize: 22, fontWeight: 700, color: "white", marginBottom: 2 }}>{p.price}</div>
                   <div style={{ fontSize: 11, color: "rgba(255,255,255,0.6)", marginBottom: 12 }}>{p.note}</div>
                   <div style={{ fontSize: 11, color: "rgba(255,255,255,0.7)", marginBottom: 12 }}>&#10003; 7 day FREE trial</div>
-                  <button style={{ width: "100%", padding: "9px 0", background: "white", color: "var(--brand)", border: "none", borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: "pointer" }}>
+                  <button style={{ width: "100%", padding: "9px 0", background: "var(--surface)", color: "var(--brand)", border: "none", borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: "pointer" }}>
                     Get Started
                   </button>
                 </div>

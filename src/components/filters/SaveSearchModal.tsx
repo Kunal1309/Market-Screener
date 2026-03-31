@@ -19,7 +19,7 @@ export default function SaveSearchModal({ onClose, onSave }: Props) {
       <div
         className="anim-fadeUp"
         style={{
-          background: "white", borderRadius: 12,
+          background: "var(--surface)", borderRadius: 12,
           padding: "24px 28px", width: 440,
           boxShadow: "0 8px 40px rgba(0,0,0,0.12)",
         }}
@@ -59,7 +59,7 @@ export default function SaveSearchModal({ onClose, onSave }: Props) {
             onClick={onClose}
             style={{
               padding: "8px 18px", borderRadius: 8,
-              border: "1px solid var(--border)", background: "white",
+              border: "1px solid var(--border)", background: "var(--surface)",
               fontSize: 14, cursor: "pointer", color: "var(--text-2)",
             }}
           >

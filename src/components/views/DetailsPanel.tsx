@@ -39,7 +39,7 @@ export default function DetailsPanel({ open, onClose, title, data }: Props) {
         position: "fixed",
         top: 0, right: 0, bottom: 0,
         width: "min(400px, 90vw)",
-        background: "white",
+        background: "var(--surface)",
         zIndex: 160,
         display: "flex", flexDirection: "column",
         transform: open ? "translateX(0)" : "translateX(100%)",
@@ -66,7 +66,7 @@ export default function DetailsPanel({ open, onClose, title, data }: Props) {
             style={{
               width: 32, height: 32, borderRadius: 8,
               border: "1px solid var(--border)",
-              background: "white", cursor: "pointer",
+              background: "var(--surface)", cursor: "pointer",
               display: "flex", alignItems: "center", justifyContent: "center",
             }}
           >

@@ -16,8 +16,25 @@
   --text-3: #6B7280;
   --text-4: #9CA3AF;
   --success: #16A34A;
-  --warning: #D97706;
   --danger: #DC2626;
+}
+
+.dark {
+  --brand: #6366F1;
+  --brand-light: #1E1B4B;
+  --brand-dark: #818CF8;
+  --surface: #1F2937;
+  --surface-2: #374151;
+  --surface-3: #111827;
+  --border: #374151;
+  --border-2: #4B5563;
+  --text-1: #F9FAFB;
+  --text-2: #D1D5DB;
+  --text-3: #9CA3AF;
+  --text-4: #6B7280;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --danger: #EF4444;
 }
 
 *, *::before, *::after {
@@ -115,7 +132,7 @@ body {
 .anim-slideIn { animation: slideIn 0.15s ease; }
 
 /* ── Table row hover ── */
-.row-hover:hover { background: #F9FAFB; cursor: pointer; }
+.row-hover:hover { background: var(--surface-2); cursor: pointer; }
 
 /* ── Responsive layout helpers ── */
 

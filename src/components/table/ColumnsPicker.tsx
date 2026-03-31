@@ -34,7 +34,7 @@ export default function ColumnsPicker({ columns, onChange }: Props) {
         onClick={() => setOpen(!open)}
         style={{
           display: "flex", alignItems: "center", gap: 6,
-          padding: "6px 12px", background: open ? "var(--brand-light)" : "white",
+          padding: "6px 12px", background: open ? "var(--brand-light)" : "var(--surface)",
           border: `1px solid ${open ? "var(--brand)" : "var(--border)"}`,
           borderRadius: 8, cursor: "pointer",
           fontSize: 13, fontWeight: 500,
@@ -51,7 +51,7 @@ export default function ColumnsPicker({ columns, onChange }: Props) {
           className="anim-fadeUp"
           style={{
             position: "absolute", top: "calc(100% + 4px)", right: 0,
-            background: "white", border: "1px solid var(--border)",
+            background: "var(--surface)", border: "1px solid var(--border)",
             borderRadius: 8, boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
             zIndex: 100, width: 220, overflow: "hidden",
           }}
@@ -78,10 +78,10 @@ export default function ColumnsPicker({ columns, onChange }: Props) {
                 display: "flex", alignItems: "center", gap: 8,
                 padding: "9px 14px", cursor: "pointer",
                 borderBottom: "1px solid var(--surface-3)",
-                background: "white", transition: "background 0.1s",
+                background: "var(--surface)", transition: "background 0.1s",
               }}
               onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "var(--surface-2)"}
-              onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "white"}
+              onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "var(--surface)"}
             >
               <input
                 type="checkbox"
@@ -98,7 +98,7 @@ export default function ColumnsPicker({ columns, onChange }: Props) {
               onClick={() => setOpen(false)}
               style={{
                 padding: "6px 14px", border: "1px solid var(--border)",
-                borderRadius: 6, background: "white", fontSize: 13,
+                borderRadius: 6, background: "var(--surface)", fontSize: 13,
                 cursor: "pointer", color: "var(--text-2)",
               }}
             >Cancel</button>

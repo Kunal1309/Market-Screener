@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-
-export const metadata: Metadata = {
+import { ThemeProvider } from "@/components/ThemeProvider";export const metadata: Metadata = {
   title: "RIA Catalyst",
   description: "Private market intelligence platform",
   icons: {
@@ -11,9 +10,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" style={{ height: "100%" }}>
+    <html lang="en" style={{ height: "100%" }} suppressHydrationWarning>
       <body style={{ margin: 0, padding: 0, height: "100%", display: "flex", flexDirection: "column" }}>
-        {children}
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -40,7 +40,7 @@ export default function FilterDrawer({ open, onClose, activeCount, children }: P
         position: "fixed",
         top: 0, left: 0, bottom: 0,
         width: "min(320px, 88vw)",
-        background: "white",
+        background: "var(--surface)",
         zIndex: 160,
         display: "flex", flexDirection: "column",
         transform: open ? "translateX(0)" : "translateX(-100%)",
@@ -62,7 +62,7 @@ export default function FilterDrawer({ open, onClose, activeCount, children }: P
             </span>
             {activeCount > 0 && (
               <span style={{
-                background: "var(--brand)", color: "white",
+                background: "var(--brand)", color: "var(--surface)",
                 fontSize: 11, fontWeight: 700,
                 padding: "1px 7px", borderRadius: 10,
               }}>
@@ -75,7 +75,7 @@ export default function FilterDrawer({ open, onClose, activeCount, children }: P
             style={{
               width: 30, height: 30, borderRadius: 8,
               border: "1px solid var(--border)",
-              background: "white", cursor: "pointer",
+              background: "var(--surface)", cursor: "pointer",
               display: "flex", alignItems: "center", justifyContent: "center",
             }}
           >
@@ -98,7 +98,7 @@ export default function FilterDrawer({ open, onClose, activeCount, children }: P
             onClick={onClose}
             style={{
               width: "100%", padding: "11px 0",
-              background: "var(--brand)", color: "white",
+              background: "var(--brand)", color: "var(--surface)",
               border: "none", borderRadius: 8,
               fontSize: 14, fontWeight: 600, cursor: "pointer",
               transition: "background 0.12s",

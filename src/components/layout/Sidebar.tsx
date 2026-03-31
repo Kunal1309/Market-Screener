@@ -52,7 +52,7 @@ export default function Sidebar({ mobileOpen, onClose }: Props) {
   const sidebarContent = (
     <aside style={{
       width: 52,
-      background: "white",
+      background: "var(--surface)",
       borderRight: "1px solid var(--border)",
       display: "flex",
       flexDirection: "column",
@@ -122,7 +122,7 @@ export default function Sidebar({ mobileOpen, onClose }: Props) {
             style={{
               position: "absolute", top: 8, right: -36,
               width: 30, height: 30, borderRadius: "50%",
-              background: "white", border: "1px solid var(--border)",
+              background: "var(--surface)", border: "1px solid var(--border)",
               display: "flex", alignItems: "center", justifyContent: "center",
               cursor: "pointer", zIndex: 202,
             }}

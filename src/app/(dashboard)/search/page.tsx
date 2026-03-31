@@ -22,7 +22,7 @@ export default function SearchPage() {
 
       <div style={{
         display: "flex", alignItems: "center", gap: 10,
-        background: "white", border: "1px solid var(--border)",
+        background: "var(--surface)", border: "1px solid var(--border)",
         borderRadius: 10, padding: "10px 16px", marginBottom: 28,
         boxShadow: "0 1px 6px rgba(0,0,0,0.05)",
       }}>
@@ -46,16 +46,16 @@ export default function SearchPage() {
               <div style={{ fontSize: 12, fontWeight: 600, color: "var(--text-3)", marginBottom: 10, textTransform: "uppercase", letterSpacing: "0.06em" }}>
                 Firms ({firmResults.length})
               </div>
-              <div style={{ background: "white", borderRadius: 10, border: "1px solid var(--border)", overflow: "hidden" }}>
+              <div style={{ background: "var(--surface)", borderRadius: 10, border: "1px solid var(--border)", overflow: "hidden" }}>
                 {firmResults.map((firm, i) => (
                   <Link key={firm.id} href="/firm/aurora-wealth" style={{
                     display: "flex", alignItems: "center", justifyContent: "space-between",
                     padding: "12px 16px", textDecoration: "none",
                     borderBottom: i < firmResults.length - 1 ? "1px solid var(--surface-3)" : "none",
-                    background: "white", transition: "background 0.1s",
+                    background: "var(--surface)", transition: "background 0.1s",
                   }}
                     onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "var(--surface-2)"}
-                    onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "white"}
+                    onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "var(--surface)"}
                   >
                     <div>
                       <div style={{ fontSize: 14, fontWeight: 500, color: "var(--text-1)" }}>{firm.name}</div>
@@ -78,16 +78,16 @@ export default function SearchPage() {
               <div style={{ fontSize: 12, fontWeight: 600, color: "var(--text-3)", marginBottom: 10, textTransform: "uppercase", letterSpacing: "0.06em" }}>
                 Advisors ({advisorResults.length})
               </div>
-              <div style={{ background: "white", borderRadius: 10, border: "1px solid var(--border)", overflow: "hidden" }}>
+              <div style={{ background: "var(--surface)", borderRadius: 10, border: "1px solid var(--border)", overflow: "hidden" }}>
                 {advisorResults.map((a, i) => (
                   <Link key={a.id} href="/advisors" style={{
                     display: "flex", alignItems: "center", justifyContent: "space-between",
                     padding: "12px 16px", textDecoration: "none",
                     borderBottom: i < advisorResults.length - 1 ? "1px solid var(--surface-3)" : "none",
-                    background: "white", transition: "background 0.1s",
+                    background: "var(--surface)", transition: "background 0.1s",
                   }}
                     onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "var(--surface-2)"}
-                    onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "white"}
+                    onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "var(--surface)"}
                   >
                     <div>
                       <div style={{ fontSize: 14, fontWeight: 500, color: "var(--text-1)" }}>{a.name}</div>

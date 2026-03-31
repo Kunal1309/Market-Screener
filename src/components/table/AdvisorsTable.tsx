@@ -30,7 +30,7 @@ export default function AdvisorsTable({ advisors, columns, onColumnReorder, sort
     fontSize: 12, fontWeight: 500, color: "var(--text-3)",
     borderBottom: "1px solid var(--border)",
     borderRight: "1px solid var(--surface-3)",
-    background: dragOverCol === key ? "var(--surface-2)" : "white",
+    background: dragOverCol === key ? "var(--surface-2)" : "var(--surface)",
     whiteSpace: "nowrap",
     position: "sticky", top: 0, zIndex: 1,
   });
@@ -68,7 +68,7 @@ export default function AdvisorsTable({ advisors, columns, onColumnReorder, sort
                   const dragPreview = document.createElement("div");
                   dragPreview.style.position = "absolute";
                   dragPreview.style.top = "-9999px";
-                  dragPreview.style.background = "white";
+                  dragPreview.style.background = "var(--surface)";
                   dragPreview.style.border = "1px solid #ddd";
 
                   // ✅ 1. Add HEADER first
