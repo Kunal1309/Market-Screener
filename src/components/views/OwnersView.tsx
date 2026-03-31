@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { SlidersHorizontal, ChevronLeft, ChevronRight } from "lucide-react";
 import OwnerFilterPanel from "@/components/filters/OwnerFilterPanel";
 import FilterDrawer from "@/components/filters/FilterDrawer";
@@ -88,15 +88,15 @@ export default function OwnersView({ onTabChange, title = "Market Insights" }: {
   const [showSave, setShowSave] = useState(false);
   const [savedFilters, setSavedFilters] = useState<{name: string, filters: OwnerFilters}[]>([]);
 
-  const handleSort = (col: string) => {
+  const handleSort = useCallback((col: string) => {
     setSort(prev => {
       if (prev.column !== col) return { column: col, direction: "asc" };
       if (prev.direction === "asc") return { column: col, direction: "desc" };
       return { column: "", direction: null };
     });
-  };
+  }, []);
 
-  const handleColumnReorder = (sourceKey: string, targetKey: string) => {
+  const handleColumnReorder = useCallback((sourceKey: string, targetKey: string) => {
     setColumns(prev => {
       const sourceIdx = prev.findIndex(c => c.key === sourceKey);
       const targetIdx = prev.findIndex(c => c.key === targetKey);
@@ -106,7 +106,7 @@ export default function OwnersView({ onTabChange, title = "Market Insights" }: {
       newCols.splice(targetIdx, 0, dragged);
       return newCols;
     });
-  };
+  }, []);
 
   const filtered = useMemo(() => {
     let data = applyFilters(MOCK_OWNERS, filters);
@@ -135,21 +135,26 @@ export default function OwnersView({ onTabChange, title = "Market Insights" }: {
   const totalPages  = Math.max(1, Math.ceil(sortedData.length / perPage));
   const paginated   = sortedData.slice((page - 1) * perPage, page * perPage);
   const activeCount = countActiveFilters(filters);
-  const resetPage   = () => setPage(1);
+  const resetPage = useCallback(() => setPage(1), []);
 
-  const filterPanel = (
+  const handleFilterChange = useCallback((f: OwnerFilters) => { setFilters(f); resetPage(); }, [resetPage]);
+  const handleApplyFilter = useCallback((f: OwnerFilters) => { setFilters(f); resetPage(); }, [resetPage]);
+  const handleClearAll = useCallback(() => { setFilters(DEFAULT_FILTERS); setSearch(""); resetPage(); }, [resetPage]);
+  const handleSaveRequest = useCallback(() => setShowSave(true), []);
+
+  const filterPanel = useMemo(() => (
     <OwnerFilterPanel
       filters={filters}
-      onChange={f => { setFilters(f); resetPage(); }}
+      onChange={handleFilterChange}
       totalCount={filtered.length}
       searchQuery={search}
       onSearchChange={setSearch}
       savedFilters={savedFilters}
-      onApplyFilter={(f: OwnerFilters) => { setFilters(f); resetPage(); }}
-      onSaveRequest={() => setShowSave(true)}
-      onClearAll={() => { setFilters(DEFAULT_FILTERS); setSearch(""); resetPage(); }}
+      onApplyFilter={handleApplyFilter}
+      onSaveRequest={handleSaveRequest}
+      onClearAll={handleClearAll}
     />
-  );
+  ), [filters, filtered.length, search, savedFilters, handleFilterChange, handleApplyFilter, handleSaveRequest, handleClearAll]);
 
   return (
     <div style={{ display: "flex", height: "100%", overflow: "hidden", position: "relative" }}>

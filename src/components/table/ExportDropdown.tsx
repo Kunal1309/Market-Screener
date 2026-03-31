@@ -2,8 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Download } from "lucide-react";
 import type { Column } from "@/types";
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
+
 import { useTranslation } from "@/lib/i18n/LanguageContext";
 
 interface ExportDropdownProps {
@@ -71,7 +70,9 @@ export default function ExportDropdown({ data, columns, filename, title }: Expor
     setOpen(false);
   };
 
-  const exportPDF = () => {
+  const exportPDF = async () => {
+    const { default: jsPDF } = await import("jspdf");
+    const { default: autoTable } = await import("jspdf-autotable");
     const doc = new jsPDF("landscape");
     
     const head = [visibleColumns.map(getLabel)];

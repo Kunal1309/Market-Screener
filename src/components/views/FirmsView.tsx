@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { Search, SlidersHorizontal, ArrowUpDown, ChevronDown, ChevronUp, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import FirmFilterPanel from "@/components/filters/FirmFilterPanel";
@@ -58,15 +58,15 @@ export default function FirmsView({ onTabChange }: { onTabChange: (tab: "owners"
   const [dragOverCol, setDragOverCol] = useState<string | null>(null);
   const [savedFilters, setSavedFilters] = useState<{name: string, filters: FirmFilters}[]>([]);
 
-  const handleSort = (col: string) => {
+  const handleSort = useCallback((col: string) => {
     setSort(prev => {
       if (prev.column !== col) return { column: col, direction: "asc" };
       if (prev.direction === "asc") return { column: col, direction: "desc" };
       return { column: "", direction: null };
     });
-  };
+  }, []);
 
-  const handleColumnReorder = (sourceKey: string, targetKey: string) => {
+  const handleColumnReorder = useCallback((sourceKey: string, targetKey: string) => {
     setColumns(prev => {
       const sourceIdx = prev.findIndex(c => c.key === sourceKey);
       const targetIdx = prev.findIndex(c => c.key === targetKey);
@@ -76,7 +76,7 @@ export default function FirmsView({ onTabChange }: { onTabChange: (tab: "owners"
       newCols.splice(targetIdx, 0, dragged);
       return newCols;
     });
-  };
+  }, []);
 
   const filtered = useMemo(() => {
     let data = [...MOCK_FIRMS];
@@ -122,24 +122,29 @@ export default function FirmsView({ onTabChange }: { onTabChange: (tab: "owners"
   const totalPages = Math.max(1, Math.ceil(sortedData.length / perPage));
   const paginated = sortedData.slice((page - 1) * perPage, page * perPage);
   const activeCount = countActiveFilters(filters);
-  const resetPage = () => setPage(1);
+  const resetPage = useCallback(() => setPage(1), []);
+
+  const handleFilterChange = useCallback((f: FirmFilters) => { setFilters(f); resetPage(); }, [resetPage]);
+  const handleApplyFilter = useCallback((f: FirmFilters) => { setFilters(f); resetPage(); }, [resetPage]);
+  const handleClearAll = useCallback(() => { setFilters(DEFAULT_FILTERS); setSearch(""); resetPage(); }, [resetPage]);
+  const handleSaveRequest = useCallback(() => setShowSave(true), []);
 
   const getScoreColor = (s: number) =>
     s >= 70 ? "#16A34A" : s >= 50 ? "#D97706" : "#DC2626";
 
-  const filterPanel = (
+  const filterPanel = useMemo(() => (
     <FirmFilterPanel
       filters={filters}
-      onChange={f => { setFilters(f); resetPage(); }}
+      onChange={handleFilterChange}
       totalCount={filtered.length}
       searchQuery={search}
       onSearchChange={setSearch}
       savedFilters={savedFilters}
-      onApplyFilter={(f: FirmFilters) => { setFilters(f); resetPage(); }}
-      onSaveRequest={() => setShowSave(true)}
-      onClearAll={() => { setFilters(DEFAULT_FILTERS); setSearch(""); resetPage(); }}
+      onApplyFilter={handleApplyFilter}
+      onSaveRequest={handleSaveRequest}
+      onClearAll={handleClearAll}
     />
-  );
+  ), [filters, filtered.length, search, savedFilters, handleFilterChange, handleApplyFilter, handleSaveRequest, handleClearAll]);
 
   return (
     <div style={{ display: "flex", height: "100%", overflow: "hidden", position: "relative" }}>

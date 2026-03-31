@@ -1,8 +1,10 @@
 "use client";
 import Link from "next/link";
 import { Globe, MapPin, Calendar, Users, Building2, FileText, Lock, TrendingUp, ChevronRight } from "lucide-react";
-import AUMDonutChart from "@/components/charts/AUMDonutChart";
-import AUMGrowthChart from "@/components/charts/AUMGrowthChart";
+import dynamic from "next/dynamic";
+
+const AUMDonutChart = dynamic(() => import("@/components/charts/AUMDonutChart"), { ssr: false });
+const AUMGrowthChart = dynamic(() => import("@/components/charts/AUMGrowthChart"), { ssr: false });
 import AcquisitionGauge from "@/components/charts/AcquisitionGauge";
 import { MOCK_FIRM_PROFILE } from "@/lib/data/firms";
 
